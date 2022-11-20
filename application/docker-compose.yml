@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - log:/log
+    ports:
+      - 6969:27017
+
+  server:
+    container_name: server
+    volumes:
+      - log:/log
+    ports:
+      - 1337:1337
+    build: ./nosql2h22-estate-backend
+    depends_on:
+      - mongo
+
+  mongo-express:
+      container_name: mongo-express
+      image: mongo-express
+      environment:
+        - ME_CONFIG_OPTIONS_EDITORTHEME=monokai
+        - ME_CONFIG_MONGODB_PORT=6969
+      depends_on:
+        - mongo
+      ports:
+        - 42069:8081
+
+volumes:
+  log:
+  mongo:
+  mongodb-data:
