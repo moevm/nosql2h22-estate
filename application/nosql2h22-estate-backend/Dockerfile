@@ -6,6 +6,6 @@ COPY . .
 
 RUN npm install --omit=dev
 
-EXPOSE 8080
+EXPOSE 1337
 
-CMD [ "node", "server.js" ]
+CMD [ "node", "src/server.js" ]
