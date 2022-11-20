@@ -25,7 +25,6 @@ services:
       image: mongo-express
       environment:
         - ME_CONFIG_OPTIONS_EDITORTHEME=monokai
-        - ME_CONFIG_MONGODB_PORT=6969
       depends_on:
         - mongo
       ports:
