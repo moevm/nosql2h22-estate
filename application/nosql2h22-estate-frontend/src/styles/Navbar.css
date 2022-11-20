@@ -1,0 +1,5 @@
+.navbar{
+  position: absolute;
+  background-color: #ffffff;
+  margin-left: calc(100vh*0.35);
+}
