@@ -11,7 +11,7 @@ import { routes } from "./routes.js";
 const app = express();
 const corsOptions = {
   credentials: true,
-  origin: "http://localhost:3000",
+  origin: process.env.FRONTEND_HOST || "http://localhost:3000",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders:
     "Authorization,X-Requested-With,X-HTTP-Method-Override,Content-Type,Cache-Control,Accept,Access-Control-Allow-Origin",
@@ -25,4 +25,8 @@ app.use(cookieParser());
 app.use("/", express.static("public"));
 app.use("/", routes);
 
-connectToServer().then(() => http.createServer(app).listen(1337))
+connectToServer()
+  .then(() => http.createServer(app).listen(+process.env.PORT || 1337))
+  .then(() =>
+    console.info(`Server launched on port ${process.env.PORT || 1337}`)
+  );

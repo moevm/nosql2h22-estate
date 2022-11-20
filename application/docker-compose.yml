@@ -12,6 +12,11 @@ services:
 
   server:
     container_name: server
+    environment:
+      - MONGO_CONNSTRING=mongodb://mongo:27017
+      - FRONTEND_HOST=http://localhost:3000
+      - LOG_LEVEL=3
+      - PORT=1337
     volumes:
       - log:/log
     ports:
