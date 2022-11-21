@@ -15,6 +15,7 @@ services:
     environment:
       - MONGO_CONNSTRING=mongodb://mongo:27017
       - FRONTEND_HOST=http://localhost:3000
+      - HOUSES_PER_PAGE=5
       - LOG_LEVEL=3
       - PORT=1337
     volumes:

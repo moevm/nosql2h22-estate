@@ -12,16 +12,33 @@ export const routes = express.Router();
 
 routes.get("/houses/short", async (req, res) => {
   const dbConnection = getDb();
+  const housesPerPage = process.env.HOUSES_PER_PAGE || 5;
 
-  logger.info("GET /houses/short, no page specified");
+  if (!_.isInteger(+req.query.page)) {
+    logger.info("GET /houses/short, no page specified");
 
-  dbConnection
-    .collection("houses")
-    .find()
-    .project(shortProjection)
-    .toArray()
-    .then(houses => respondSuccess(res, houses))
-    .catch(err => respondError(res, err))
+    dbConnection
+      .collection("houses")
+      .find()
+      .project(shortProjection)
+      .toArray()
+      .then(houses => respondSuccess(res, houses))
+      .catch(err => respondError(res, err))
+    
+  } else {
+    logger.info(`GET /houses/short', page=${req.query.page}`);
+
+    dbConnection
+      .collection("houses")
+      .find()
+      .project(shortProjection)
+      .sort({_id: 1})
+      .skip(+req.query.page * housesPerPage)
+      .limit(housesPerPage)
+      .toArray()
+      .then(houses => respondSuccess(res, houses))
+      .catch(err => respondError(res, err));
+  }
 });
 
 routes.get("/houses/:id", async (req, res) => {
@@ -38,15 +55,31 @@ routes.get("/houses/:id", async (req, res) => {
 
 routes.get("/houses", async (req, res) => {
   const dbConnection = getDb();
+  const housesPerPage = process.env.HOUSES_PER_PAGE || 5;
 
-  logger.info("GET /houses, no page specified");
+  if (!_.isInteger(+req.query.page)) {
+    logger.info("GET /houses, no page specified");
 
-  dbConnection
-    .collection("houses")
-    .find()
-    .toArray()
-    .then(houses => respondSuccess(res, houses))
-    .catch(err => respondError(res, err))
+    dbConnection
+      .collection("houses")
+      .find()
+      .toArray()
+      .then(houses => respondSuccess(res, houses))
+      .catch(err => respondError(res, err))
+    
+  } else {
+    logger.info(`GET /houses', page=${req.query.page}`);
+
+    dbConnection
+      .collection("houses")
+      .find()
+      .sort({_id: 1})
+      .skip(+req.query.page * housesPerPage)
+      .limit(housesPerPage)
+      .toArray()
+      .then(houses => respondSuccess(res, houses))
+      .catch(err => respondError(res, err));
+  }
 });
 
 routes.post("/houses", async (req, res) => {
