@@ -6,7 +6,7 @@ import cors from "cors";
 import http from "http";
 
 import { connectToServer } from "./db.js";
-import { routes } from "./routes.js";
+import { routes } from "./routes/index.js";
 
 const app = express();
 const corsOptions = {

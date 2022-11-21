@@ -1,8 +1,10 @@
+import _ from "lodash";
+
 import { logger } from "./logger.js";
 
 export const respondError = (res, error) => {
   res.status(400).json({ status: "error", error });
-  logger.error("Request error: ", err);
+  logger.error("Request error: ", error);
 };
 
 export const respondSuccess = (res, message) => {
@@ -10,4 +12,10 @@ export const respondSuccess = (res, message) => {
   logger.info("Request success: ", message);
 };
 
-export const shortProjection = ["street", "houseNumber", "houseFractionNumber", "character", "district"].reduce((res, k) => _.set(res, k, 1), {});
+export const shortProjection = [
+  "street",
+  "houseNumber",
+  "houseFractionNumber",
+  "character",
+  "district",
+].reduce((res, k) => _.set(res, k, 1), {});
