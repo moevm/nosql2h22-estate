@@ -7,8 +7,10 @@
 
 .sidebar{
   position: absolute;
-  width: 15%;
-  background-color: #202123;
+  width: 240px;
+	height: 900px;
+	padding: 8px 8px 8px 8px;
+	background: #202123;
   margin-left: 0;
   margin-top: 0;
   height: 100vh;
