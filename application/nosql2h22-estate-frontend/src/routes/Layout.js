@@ -1,12 +1,14 @@
 import React from 'react'
 import Sidebar from './Sidebar/Sidebar.js'
-import Navbar from './Navbar/Navbar.js'
 import './../styles/Layout.css'
+
+import Cathalog from './../components/pages/Cathalog.js'
+import Map from './../components/pages/Map.js'
+
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 const Layout = () => {
@@ -16,13 +18,11 @@ const Layout = () => {
       <div className="sidebar">
         <Sidebar/>
       </div>
-
-      <div className="navbar">
-        <Navbar/>
-      </div>
-
-      <div className="content">
-        Content
+      <div className="content">  
+        <Routes>
+          <Route path="/" element={<Cathalog/>}/>
+          <Route path="/map" element={<Map/>}/>
+        </Routes>
       </div>
     </div>  
   );
