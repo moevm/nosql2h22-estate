@@ -24,7 +24,7 @@
 .item{
   margin: auto;
   width: 182px;
-	height: 28px;
+	height: 48px;
 	padding: 8px 8px 8px 8px;
 	background: #202123;
   line-height: 28px;
@@ -46,7 +46,7 @@
 .item-active{
   margin: auto;
   width: 182px;
-	height: 28px;
+	height: 48px;
 	padding: 8px 8px 8px 8px;
 	background: #2d2d2e;
   line-height: 28px;
@@ -88,7 +88,7 @@
   margin: auto;
   width: 182px;
 	height: 28px;
-	padding: 8px 8px 8px 8px;
+	padding: 28px 8px 28px 8px;
   background: #202123;
 }
 
@@ -98,7 +98,7 @@
 
 .button{
   width: 162px;
-  height: 28px;
+  height: 56px;
   background: #202123;
   border-top: none;
   border-left: none;

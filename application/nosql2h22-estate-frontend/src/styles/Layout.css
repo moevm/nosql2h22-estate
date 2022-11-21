@@ -1,25 +1,11 @@
-.navbar{
-  position: absolute;
-  background-color: #ffffff;
-  margin-left: calc(100vh*0.35);
-  border: 1px solid black;
-}
-
 .sidebar{
-  position: absolute;
   width: 240px;
-	height: 900px;
+	height: 100vh;
 	padding: 8px 8px 8px 8px;
 	background: #202123;
-  margin-left: 0;
-  margin-top: 0;
-  height: 100vh;
 }
 
 .content{
-  position: absolute;
   background-color: #aaaaaa;
-  margin-left: calc(100vh*0.35);
-  margin-top: calc(100vh*0.25);
   border: 1px solid black;
 }
