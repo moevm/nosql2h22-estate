@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import ButtonSearchCathalog from "./ButtonsCathalog/ButtonSearchCathalog";
+import ButtonFilterCathalog from "./ButtonsCathalog/ButtonFilterCathalog/ButtonFilterCathalog";
 import ButtonSorterCathalog from "./ButtonsCathalog/ButtonSorterCathalog";
 import TableCathalog from "./TableCathalog/TableCathalog";
 import '../../../styles/Cathalog/Cathalog.css'
@@ -18,8 +19,17 @@ function Cathalog(props){
     let [test, setTest] = useState(true)
 
     function InitializeRowObjects() {
+        //FETCH FOR GET OBJECTS
+        if(filter === {}) {
+            let x = 1 + 1
+            //FETCH WITH FILTERS
+        } else {
+            let x = 1 + 1
+            //FETCH WITHOUT FILTERS
+        }
 
         return testRowObjects
+        //return rowObjects
     }
 
     useEffect(() => {
@@ -1116,6 +1126,10 @@ function Cathalog(props){
         Handler()
     }
 
+    function HandlerFilter(value) {
+        setFilter(value)
+        Handler()
+    }
 
     return (
         <div className="cathalog">
@@ -1123,6 +1137,8 @@ function Cathalog(props){
               <div class="panel">
                   <ButtonSearchCathalog Handler={HandlerSearch}/>
                   <div className="EmptySurfacePanel"/>
+                  <ButtonFilterCathalog columns={columns} Handler={HandlerFilter} columnsEng={columnsEng}/>
+                  <div className="EmptySurfacePanelSecond"/>
                   <ButtonSorterCathalog columns={columns} Handler={HandlerSort}/>
               </div>
               <TableCathalog columns={columns} rowObjects={rowObjects}/>
