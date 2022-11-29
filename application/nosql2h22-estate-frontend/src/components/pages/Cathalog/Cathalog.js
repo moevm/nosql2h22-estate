@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import ButtonSearchCathalog from "./ButtonsCathalog/ButtonSearchCathalog";
+import ButtonSorterCathalog from "./ButtonsCathalog/ButtonSorterCathalog";
 import TableCathalog from "./TableCathalog/TableCathalog";
 import '../../../styles/Cathalog/Cathalog.css'
 import PropTypes from "prop-types";
@@ -35,7 +36,7 @@ function Cathalog(props){
         if(props.columns !== undefined) {
             setColumns(props.columns)
         }
-        setRowObjects(SearchRowObjects(InitializeRowObjects()))
+        setRowObjects(SortRowObjects(SearchRowObjects(InitializeRowObjects())))
     }
 
     function TestSetProps() {
@@ -1060,6 +1061,10 @@ function Cathalog(props){
         }
     }
 
+    function SortRowObjects(mass) {
+        return mass.sort(SortBy(sort, reverseSort, undefined))
+    }
+
     function SearchRowObjects(mass) {
         if(search !== "") {
             return mass.filter(row => CustomMatch(row.street, search))
@@ -1072,8 +1077,38 @@ function Cathalog(props){
         return word.match(search)
     }
 
+    function FindEngField(rusField) {
+        let engField = ""
+        for(let i = 0; i < columns.length; i++) {
+            if(columns[i] === rusField) {
+                engField = columnsEng[i]
+            }
+        }
+        return engField
+    }
+
+    function SortBy(field, reverse, primer)  {
+        const key = primer ?
+            function(x) {
+                return primer(x[field])
+            } :
+            function(x) {
+                return x[field]
+            };
+        reverse = !reverse ? 1 : -1;
+        return function(a, b) {
+            return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+        }
+    }
+
     function Handler() {
         setIsInitialize(false)
+    }
+
+    function HandlerSort(value) {
+        setSort(FindEngField(value))
+        setReverseSort(!reverseSort)
+        Handler()
     }
 
     function HandlerSearch(value) {
@@ -1081,11 +1116,14 @@ function Cathalog(props){
         Handler()
     }
 
+
     return (
         <div className="cathalog">
           <div className="rectangle-23">
               <div class="panel">
                   <ButtonSearchCathalog Handler={HandlerSearch}/>
+                  <div className="EmptySurfacePanel"/>
+                  <ButtonSorterCathalog columns={columns} Handler={HandlerSort}/>
               </div>
               <TableCathalog columns={columns} rowObjects={rowObjects}/>
           </div>
