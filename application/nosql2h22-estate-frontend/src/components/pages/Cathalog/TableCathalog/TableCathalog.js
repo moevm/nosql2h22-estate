@@ -2,6 +2,7 @@ import React, {createContext, useContext, useEffect, useReducer} from 'react'
 import {forEach} from "react-bootstrap/ElementChildren";
 import '../../../../styles/Cathalog/TableCathalog/TableCathalog.css'
 import {Component, useState} from "react";
+import ButtonPageTableCatalog from "./ButtonPageTableCatalog";
 import PropTypes from "prop-types";
 import Cathalog from "../Cathalog";
 
@@ -303,6 +304,30 @@ function TableCathalog(props) {
         })
     }
 
+    function AddButtonsPage(buttonsPage, currentPage) {
+        return buttonsPage.map((value, index) => {
+            if(currentPage === value) {
+                return (
+                    <ButtonPageTableCatalog number={value} clicked={true}/>
+                )
+            }
+            else {
+                return (
+                    <ButtonPageTableCatalog number={value} clicked={false} Handler={()=>{
+                        if(value === "...") {
+                            let nextPage = String(Number(currentPage)+2)
+                            RecalculateButtonsPageTableCathalog(nextPage, buttonsMaxPage)
+                            setCurrentPage(nextPage)
+
+                        } else {
+                            RecalculateButtonsPageTableCathalog(value, buttonsMaxPage)
+                            setCurrentPage(value)
+                        }
+                    }}/>
+                )
+            }
+        })
+    }
 
     return (
         <div>
@@ -312,6 +337,9 @@ function TableCathalog(props) {
                 </tr>
                 {AddRowsObjects(rowObjects)}
             </table>
+            <div className="panel-pages">
+                {AddButtonsPage(buttonsPage, currentPage)}
+            </div>
         </div>
     );
 };
