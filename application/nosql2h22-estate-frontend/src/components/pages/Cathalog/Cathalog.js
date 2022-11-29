@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import ButtonSearchCathalog from "./ButtonsCathalog/ButtonSearchCathalog";
 import TableCathalog from "./TableCathalog/TableCathalog";
 import '../../../styles/Cathalog/Cathalog.css'
 import PropTypes from "prop-types";
@@ -16,7 +17,7 @@ function Cathalog(props){
     let [test, setTest] = useState(true)
 
     function InitializeRowObjects() {
-        
+
         return testRowObjects
     }
 
@@ -34,7 +35,7 @@ function Cathalog(props){
         if(props.columns !== undefined) {
             setColumns(props.columns)
         }
-        setRowObjects(InitializeRowObjects())
+        setRowObjects(SearchRowObjects(InitializeRowObjects()))
     }
 
     function TestSetProps() {
@@ -1059,19 +1060,32 @@ function Cathalog(props){
         }
     }
 
+    function SearchRowObjects(mass) {
+        if(search !== "") {
+            return mass.filter(row => CustomMatch(row.street, search))
+        } else {
+            return mass
+        }
+    }
 
+    function CustomMatch(word, search) {
+        return word.match(search)
+    }
 
     function Handler() {
         setIsInitialize(false)
     }
 
-
+    function HandlerSearch(value) {
+        setSearch(value)
+        Handler()
+    }
 
     return (
         <div className="cathalog">
           <div className="rectangle-23">
               <div class="panel">
-
+                  <ButtonSearchCathalog Handler={HandlerSearch}/>
               </div>
               <TableCathalog columns={columns} rowObjects={rowObjects}/>
           </div>
