@@ -2,13 +2,33 @@ import express from "express";
 import _ from "lodash";
 import { ObjectId } from "mongodb";
 
-import { respondSuccess, respondError, shortProjection } from "../utils.js";
+import { respondSuccess, respondError, shortProjection, parseFinding } from "../utils.js";
 import { getDb } from "../db.js";
 import { scheme } from "../houseScheme.js";
 import { isValid } from "../validation.js";
 import { logger } from "../logger.js";
 
 export const housesRoutes = express.Router();
+
+housesRoutes.get("/filter", async (req, res) => {
+  const dbConnection = getDb();
+  const filter = scheme.reduce((filter, {name}) => {
+    if (req.query[name]) {
+      filter.push(parseFinding(name, req.query[name]))
+    }
+
+    return filter;
+  }, []);
+
+  logger.info("GET /houses/filter, filter: ", filter);
+
+  dbConnection
+    .collection("houses")
+    .find({$where: filter.join('&&')})
+    .toArray()
+    .then((houses) => respondSuccess(res, houses))
+    .catch((err) => respondError(res, err));
+});
 
 housesRoutes.get("/short", async (req, res) => {
   const dbConnection = getDb();

@@ -19,3 +19,15 @@ export const shortProjection = [
   "character",
   "district",
 ].reduce((res, k) => _.set(res, k, 1), {});
+
+export function parseFinding(key, value) {
+  const pattern = value.split(',').map(str => `(${str.trim()})`).join('|');
+
+  if (!key.includes('.')) {
+    return `/${pattern}/.test(this.${key})`;
+  }
+
+  const [field, objField] = key.split('.');
+
+  return `this.${field}.some(obj => /${pattern}/.test(obj.${objField}))`;
+}
