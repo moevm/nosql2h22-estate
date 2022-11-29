@@ -1,5 +1,5 @@
 import React from 'react'
-import Cathalog from './components/pages/Cathalog.js'
+import Cathalog from './components/pages/Cathalog/Cathalog.js'
 import Layout from './routes/Layout.js'
 import Map from './components/pages/Map.js'
 import Statistics from './components/pages/Statistics.js'
