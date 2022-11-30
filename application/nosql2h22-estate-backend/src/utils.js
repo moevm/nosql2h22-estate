@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { defaultHouse } from "./houseScheme.js";
 
 import { logger } from "./logger.js";
 
@@ -33,4 +34,18 @@ export function parseFinding(key, value) {
   const [field, objField] = key.split(".");
 
   return `this.${field}.some(obj => /${pattern}/.test(obj.${objField}))`;
+}
+
+const normaliseBoolean = (house, scheme) => {
+  for (const prop of scheme) {
+    if (prop.type === "boolean") {
+      house[prop.name] = house[prop.name] ? 1 : 0;
+    }
+  }
+};
+
+export function normaliseHouse(object, scheme) {
+  _.defaults(object, defaultHouse);
+
+  normaliseBoolean(object, scheme);
 }
