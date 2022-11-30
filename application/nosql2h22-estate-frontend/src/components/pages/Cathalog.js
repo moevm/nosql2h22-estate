@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from './../../routes/Navbar/Navbar.js'
 import './../../styles/Cathalog.css'
 
-import CathalogComponent from './Cathalog/CathalogComponent.js'
+import Cathalog from './Cathalog/Cathalog.js'
 
 const Cathalog = () => {
   
