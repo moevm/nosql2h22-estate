@@ -1,5 +1,8 @@
 import _ from "lodash";
 
+// eslint-disable-next-line eqeqeq
+export const isBooleanLike = (val) => _.isBoolean(val) || val == 1 || val == 0;
+
 export const isArrayOfInt = (arr) => _.isArray(arr) && arr.every(_.isInteger);
 export const isArrayOfString = (arr) => _.isArray(arr) && arr.every(_.isString);
 export const isArrayOfFloat = (arr) => _.isArray(arr) && arr.every(_.isNumber);
@@ -14,7 +17,7 @@ export const isArrayOfFlat = (arr) => _.isArray(arr) && arr.every(isFlat);
 
 const validFuncs = {
   string: _.isString,
-  boolean: _.isBoolean,
+  boolean: isBooleanLike,
   float: _.isNumber,
   int: _.isInteger,
   arrayOfInt: isArrayOfInt,
@@ -25,10 +28,19 @@ const validFuncs = {
 };
 
 export const isValid = (object, scheme) => {
-  const invalidField = _.find(
-    scheme,
-    ({ name, type, filter }) => !filter && !validFuncs[type](object[name])
-  );
+  const isInvalidField = (prop) => {
+    if (prop.filter) {
+      return false;
+    }
+
+    if (_.isUndefined(object[prop.name]) && !_.isUndefined(prop.default)) {
+      return false;
+    }
+
+    return !validFuncs[prop.type](object[prop.name]);
+  };
+
+  const invalidField = _.find(scheme, isInvalidField);
 
   return invalidField
     ? {

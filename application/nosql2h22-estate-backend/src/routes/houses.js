@@ -9,7 +9,7 @@ import {
   parseFinding,
 } from "../utils.js";
 import { getDb } from "../db.js";
-import { scheme } from "../houseScheme.js";
+import { defaultHouse, scheme } from "../houseScheme.js";
 import { isValid } from "../validation.js";
 import { logger } from "../logger.js";
 
@@ -118,6 +118,8 @@ housesRoutes.post("/", async (req, res) => {
 
   if (validationResult.valid) {
     logger.info(`POST /houses, house validated`);
+
+    _.defaults(house, defaultHouse);
 
     dbConnection
       .collection("houses")
