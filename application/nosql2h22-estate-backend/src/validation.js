@@ -27,7 +27,7 @@ const validFuncs = {
 export const isValid = (object, scheme) => {
   const invalidField = _.find(
     scheme,
-    ({ name, type }) => !validFuncs[type](object[name])
+    ({ name, type, filter }) => !filter && !validFuncs[type](object[name])
   );
 
   return invalidField

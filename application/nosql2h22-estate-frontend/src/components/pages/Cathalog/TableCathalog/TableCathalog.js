@@ -23,9 +23,9 @@ function TableCathalog(props) {
     })
 
     function Initialize() {
-        SetProps();
-        DividePageTableCathalog(rowObjects)
         if(!isInitialize) {
+            SetProps();
+            DividePageTableCathalog(rowObjects)
             if(rowObjects.length !== 0) {
                 setCurrentPage("1")
                 setIsInitialize(true)
