@@ -13,14 +13,16 @@ import Col from 'react-bootstrap/Col';
 const Layout = () => {
   return (
     <Container fluid>
-      <Row md={4}>
+      <Row md={4} className={"backgroundMain"}>
         <Col xs={6} md={4}>
           <div className="sidebar">
             <Sidebar />
           </div>
         </Col>
         <Col xs={12} md={8}>
-          <Outlet/>
+          <div>
+            <Outlet/>
+          </div>
         </Col>
       </Row>
     </Container>

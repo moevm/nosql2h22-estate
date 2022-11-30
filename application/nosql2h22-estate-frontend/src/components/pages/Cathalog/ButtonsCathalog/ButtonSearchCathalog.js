@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import '../../../../styles/Cathalog/ButtonsCathalog/ButtonSearchCathalog.css'
 import PropTypes from "prop-types";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 function ButtonSearchCathalog(props) {
 
@@ -41,7 +43,7 @@ function ButtonSearchCathalog(props) {
         <div className="mainSearch">
             <div className="rectangle-8">
                 {DisplayDynamicSearch()}
-                <i className='fa-solid fa-magnifying-glass'/>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
                 {DisplayStaticSearch()}
             </div>
         </div>
