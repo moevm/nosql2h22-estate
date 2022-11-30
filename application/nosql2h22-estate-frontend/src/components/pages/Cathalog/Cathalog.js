@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useReducer} from 'react'
 import ButtonSearchCathalog from "./ButtonsCathalog/ButtonSearchCathalog";
 import ButtonFilterCathalog from "./ButtonsCathalog/ButtonFilterCathalog/ButtonFilterCathalog";
 import ButtonSorterCathalog from "./ButtonsCathalog/ButtonSorterCathalog";
@@ -17,53 +17,60 @@ function Cathalog(props){
     let [columnsEng, setColumnsEng] = useState([]);
     let [rowObjects, setRowObjects] = useState([]);
     let [testRowObjects, setTestRowObjects] = useState([]);
-    let [isInitialize, setIsInitialize] = useState(false)
+    let [isInitialize, setIsInitialize] = useState(false);
+    let [isBeginingLoading, setIsBeginingLoading] = useState(false)
+    let [isEndingLoading, setIsEndingLoading] = useState(false)
     let [test, setTest] = useState(true)
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
+
 
     function InitializeRowObjects() {
-        if(Object.keys(filter).length === 0) {
-            fetch('http://localhost:1337/houses/')
-                .then(res => res.json())
-                .then( (res) => {
-                    setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
-                    setIsInitialize(true)
-                });
-        } else {
-            console.log('has filter')
-            let url = new URL('http://localhost:1337/houses/filter')
-            for (let k in filter) {
-                url.searchParams.append(k, filter[k]);
-            }
-            fetch(url)
-                .then(res => res.json())
-                .then( (res) => {
-                    console.log('res = ', res.message)
-                    setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
-                    setIsInitialize(true)
-                });
-        }
+	if(Object.keys(filter).length === 0) {
+	    fetch('http://localhost:1337/houses/')
+	        .then(res => res.json())
+	        .then( (res) => {
+	            setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
+	        });
+	} else {
+	    console.log('has filter')
+	    let url = new URL('http://localhost:1337/houses/filter')
+	    for (let k in filter) {
+	        url.searchParams.append(k, filter[k]);
+	    }
+	    fetch(url)
+	        .then(res => res.json())
+	        .then( (res) => {
+	            console.log('res = ', res.message)
+	            setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
+	        });
+	}
     }
 
     useEffect(() => {
         if(!isInitialize) {
-            SetProps();
-            InitializeRowObjects()
-        }
-    }, )
+	       SetProps();
+	    }
+    }, [isInitialize])
+
+    useEffect(() => {
+        if(!isInitialize) {
+	       setIsInitialize(true)
+	    }
+    }, [rowObjects])
 
     function SetProps() {
         TestSetProps();
         if(props.columns !== undefined) {
             setColumns(props.columns)
         }
-        //setRowObjects(SortRowObjects(SearchRowObjects(InitializeRowObjects())))
+        InitializeRowObjects()
     }
 
     function TestSetProps() {
         if (test) {
             setColumns(col_names)
             setColumnsEng(col_names_eng)
-            setTestRowObjects(test_rowdata)
+            //setTestRowObjects(test_rowdata)
             setTest(false)
         }
     }
@@ -109,6 +116,7 @@ function Cathalog(props){
     }
 
     function Handler() {
+	//setRowObjects([])
         setIsInitialize(false)
     }
 
@@ -119,14 +127,24 @@ function Cathalog(props){
     }
 
     function HandlerSearch(value) {
-        setSearch(value)
         Handler()
+        setSearch(value)
     }
 
     function HandlerFilter(value) {
         setFilter(value)
         Handler()
     }
+
+    function DisplayTableCathalog() {
+        if(isInitialize) {
+            return (
+                <TableCathalog columns={columns} rowObjects={rowObjects}/>
+            )
+        }
+    }
+
+    //alert("begined: " + JSON.stringify(rowObjects))
     return (
         <div className="cathalog">
           <div className="rectangle-23">
@@ -137,7 +155,7 @@ function Cathalog(props){
                   <div className="EmptySurfacePanelSecond"/>
                   <ButtonSorterCathalog columns={columns} Handler={HandlerSort}/>
               </div>
-              <TableCathalog columns={columns} rowObjects={rowObjects}/>
+              {DisplayTableCathalog()}
           </div>
         </div>
     );

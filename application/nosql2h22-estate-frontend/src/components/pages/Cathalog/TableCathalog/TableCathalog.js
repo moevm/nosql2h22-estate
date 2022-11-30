@@ -329,6 +329,7 @@ function TableCathalog(props) {
         })
     }
 
+    //alert("accepted: " + JSON.stringify(rowObjects))
     return (
         <div>
             <table className="table-1">
