@@ -1,5 +1,5 @@
 .sidebar{
-  width: 240px;
+  width: 305px;
 	height: 100vh;
 	padding: 8px 8px 8px 8px;
 	background: #202123;
@@ -8,4 +8,8 @@
 .content{
   background-color: #aaaaaa;
   border: 1px solid black;
+}
+
+.container-content{
+  background-color: #F3F3F3;
 }

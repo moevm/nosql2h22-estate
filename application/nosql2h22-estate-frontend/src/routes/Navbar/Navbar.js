@@ -6,14 +6,18 @@ const Navbar = () => {
 
   return (
     <div>
-      <div>
-        Каталог жилищного фонда
+      <div className="text-content">
+        <span className="header-text-theme">
+          Каталог жилищного фонда
+        </span>
         <p>
-          Ниже представлена таблица с информацией о жилых домах
+          <span className="header-text-description">
+            Ниже представлена таблица с информацией о жилых домах
+          </span>
         </p>
       </div>
-      <div>
-        USER
+      <div className="admin-link">
+        ADMIN
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import React from 'react'
 import Navbar from './../../routes/Navbar/Navbar.js'
 import './../../styles/Cathalog.css'
 
+import CathalogComponent from './Cathalog/CathalogComponent.js'
+
 const Cathalog = () => {
   
   return (
@@ -9,7 +11,9 @@ const Cathalog = () => {
       <div className="navbar">
         <Navbar/>
       </div>
-      <h1>Cathalog</h1>
+      <div className="cathalog-component">
+        <CathalogComponent/>
+      </div>
     </div>
   );
 

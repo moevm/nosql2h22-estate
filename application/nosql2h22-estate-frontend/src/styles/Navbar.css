@@ -1,5 +1,25 @@
 .navbar{
-  position: absolute;
   background-color: #ffffff;
-  margin-left: calc(100vh*0.35);
+}
+
+.header-text-theme{
+  font-size: 30px;
+  color: #202123;
+  font-family: "Source Sans 3";
+}
+
+.header-text-description{
+  font-size: 18px;
+  color: #8c8c8d;
+  font-family: "Source Sans 3";
+}
+
+.admin-link{
+  position: absolute;
+  top: 38px;
+  left: 1335px;
+}
+
+.text-content{
+  margin-left: 60px;
 }

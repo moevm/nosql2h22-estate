@@ -4,7 +4,7 @@ import '../../../../styles/Cathalog/TableCathalog/TableCathalog.css'
 import {Component, useState} from "react";
 import ButtonPageTableCatalog from "./ButtonPageTableCatalog";
 import PropTypes from "prop-types";
-import Cathalog from "../Cathalog";
+import Cathalog from "../CathalogComponent";
 
 function TableCathalog(props) {
 
