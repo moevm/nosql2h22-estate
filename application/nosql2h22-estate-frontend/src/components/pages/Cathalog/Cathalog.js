@@ -21,17 +21,26 @@ function Cathalog(props){
     let [test, setTest] = useState(true)
 
     function InitializeRowObjects() {
-        console.log('filter = ', filter)
         if(Object.keys(filter).length === 0) {
-            console.log('no filter')
             fetch('http://localhost:1337/houses/')
                 .then(res => res.json())
                 .then( (res) => {
-                    setRowObjects(res.message)
+                    setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
                     setIsInitialize(true)
                 });
         } else {
-            let x = 1 + 1
+            console.log('has filter')
+            let url = new URL('http://localhost:1337/houses/filter')
+            for (let k in filter) {
+                url.searchParams.append(k, filter[k]);
+            }
+            fetch(url)
+                .then(res => res.json())
+                .then( (res) => {
+                    console.log('res = ', res.message)
+                    setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
+                    setIsInitialize(true)
+                });
         }
     }
 
@@ -121,10 +130,6 @@ function Cathalog(props){
         setFilter(value)
         Handler()
     }
-
-    console.log('testRowObject = ', testRowObjects)
-    console.log('rowObjects = ', rowObjects)
-
     return (
         <div className="cathalog">
           <div className="rectangle-23">
