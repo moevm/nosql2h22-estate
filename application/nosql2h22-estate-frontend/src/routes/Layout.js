@@ -13,16 +13,18 @@ import Col from 'react-bootstrap/Col';
 const Layout = () => {
   return (
     <Container fluid>
-      <Row md={4}>
-        <Col xs={6} md={4}>
-          <div className="sidebar">
-            <Sidebar />
-          </div>
-        </Col>
-        <Col xs={12} md={8}>
-          <Outlet/>
-        </Col>
-      </Row>
+      <div className="container-content">
+        <Row md={4}>
+          <Col xs={3} md={2}>
+            <div className="sidebar">
+              <Sidebar />
+            </div>
+          </Col>
+          <Col xs={14} md={10}>
+            <Outlet/>
+          </Col>
+        </Row>
+      </div>
     </Container>
   );
 };

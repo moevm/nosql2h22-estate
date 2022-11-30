@@ -1,0 +1,30 @@
+.cathalog{
+  outline-style: none;
+}
+
+
+.rectangle-23 {
+  margin-top: 160px;
+  width: 1010px;
+  height: 526px;
+  background: #ffffff;
+  border-radius: 34px 34px 34px 34px;
+  position: relative;
+
+}
+
+.EmptySurfacePanel {
+  width: 382px;
+}
+
+.EmptySurfacePanelSecond {
+  width: 21px;
+}
+
+.panel {
+  width: 1010px;
+  height: 91px;
+}
+.panel div {
+  display: inline-block;
+}

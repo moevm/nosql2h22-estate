@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+3');
+
+.mainSearch {
+    display: inline-block;
+    position: relative;
+}
+
+.textDynamicSearch {
+    position: absolute;
+    outline-color: #f3f3f3;
+    background: none;
+    padding: 11px 7px 12px 54px;
+    font-family: "Source Sans 3", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.3;
+    width: 200px;
+    height: 48px;
+    background: #f3f3f3;
+    border-radius: 34px 34px 34px 34px;
+    border-color: #f3f3f3;
+    border: none;
+    text-align: left;
+}
+
+.textDynamicSearch:hover {
+    transition: .2s;
+    background: white;
+    outline: #f3f3f3 2px solid;
+}
+
+.textDynamicSearch:active {
+    background: white;
+    outline: #f3f3f3 2px solid;
+}
+
+.textDynamicSearch:focus {
+    background: white;
+    outline: #f3f3f3 2px solid;
+}
+
+.rectangle-8 {
+    margin-left: 30px;
+    margin-top: 21px;
+    width: 200px;
+    height: 48px;
+    background: white;
+    border-radius: 34px 34px 34px 34px;
+    border-color: #f3f3f3;
+    font-family: "Source Sans 3", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.3;
+    text-align: left;
+    display: none;
+}
+
+.rectangle-8:hover {
+    transition: .2s;
+    background: white;
+}
+
+.rectangle-8:active {
+    background: white;
+}
+
+
+.fa-magnifying-glass {
+    margin-left: 18px;
+    margin-top: 15px;
+    color: #202123;
+    position: absolute;
+}
+
+.textStaticSearch {
+    opacity: 100%;
+    color: #aaaaaa;
+    position: absolute;
+
+    margin: 12px 8px 8px 54px;
+}
