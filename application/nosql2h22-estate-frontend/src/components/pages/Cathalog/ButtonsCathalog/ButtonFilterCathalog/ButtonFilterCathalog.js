@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import '../../../../../styles/Cathalog/ButtonsCathalog/ButtonFilterCathalog.css'
 import PropTypes from "prop-types";
 import ModalFilterCathalog from './ModalFilterCathalog/ModalFilterCathalog'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faFilter } from '@fortawesome/free-solid-svg-icons'
 
 function ButtonFilterCathalog(props) {
     const [show, setShow] = useState(false);
@@ -34,7 +36,7 @@ function ButtonFilterCathalog(props) {
                 <div className="rectangle-40" onClick={()=>{OnClick(props.columns, props.Handler)}}>
                     <span className="textFilter">{"Фильтры"}</span>
                 </div>
-                <i className="fa fa-filter" aria-hidden="true"/>
+                <FontAwesomeIcon icon={faFilter} className="fa fa-filter" />
             </div>
         </>
     );

@@ -23,6 +23,10 @@ function ModalFilterCathalog(props) {
         props.onClickSubmit(filter)
     }
 
+    function OnClickCancel() {
+        props.onClickSubmit({})
+    }
+
     function Input(e, value) {
         let tmp = filter;
         tmp[FindEngField(value)] = e.target.value
@@ -67,6 +71,9 @@ function ModalFilterCathalog(props) {
                 </div>
             </Modal.Body>
             <Modal.Footer>
+                <Button className="ModalButton" variant="secondary" onClick={()=>{OnClickCancel()}}>
+                    Сбросить фильтры
+                </Button>
                 <Button className="ModalButton" variant="secondary" onClick={()=>{OnClickSubmit()}}>
                     Применить
                 </Button>

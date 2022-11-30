@@ -114,6 +114,15 @@ function ButtonSorterCathalog(props) {
             }
         }
     }
+
+    function ShortString(value) {
+        if(value.length > 7) {
+            return value.slice(0, 5) + "..."
+        } else {
+            return value
+        }
+    }
+
     useEffect(()=>{
         Initialize()
     })
@@ -124,7 +133,7 @@ function ButtonSorterCathalog(props) {
                 <div className="absoluteField">
                     {CustomSelect()}
                 </div>
-                <span className="textSorter">Сортировать: <span>{sort}</span></span>
+                <span className="textSorter">Сортировать: <span>{ShortString(sort)}</span></span>
             </div>
         </div>
     );
