@@ -9,7 +9,7 @@ const Cathalog = () => {
   return (
     <div>
       <div className="navbar">
-        <Navbar/>
+        <Navbar headerText={"Каталог жилищного фонда"} descText={"Ниже представлена таблица с информацией о жилых домах"}/>
       </div>
       <div className="cathalog-component">
         <CathalogComponent/>
