@@ -1,18 +1,18 @@
 import React from 'react'
 import './../../styles/Navbar.css'
+import PropTypes from "prop-types";
 
-
-const Navbar = () => {
+const Navbar = (props) => {
 
   return (
     <div>
       <div className="text-content">
         <span className="header-text-theme">
-          Каталог жилищного фонда
+          {props.headerText}
         </span>
         <p>
           <span className="header-text-description">
-            Ниже представлена таблица с информацией о жилых домах
+            {props.descText}
           </span>
         </p>
       </div>
@@ -23,5 +23,10 @@ const Navbar = () => {
   );
 
 };
+
+Navbar.propTypes = {
+  headerText: PropTypes.string,
+  descText: PropTypes.string
+}
 
 export default Navbar;

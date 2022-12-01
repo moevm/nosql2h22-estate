@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 import {col_names, col_names_eng, test_rowdata} from './data_info.js'
 
-function Cathalog(props){
+function CathalogComponent(props){
     let [filter, setFilter] = useState({})
     let [sort, setSort] = useState("")
     let [search, setSearch] = useState("")
@@ -162,9 +162,9 @@ function Cathalog(props){
 
 };
 
-Cathalog.propTypes = {
+CathalogComponent.propTypes = {
     columns: PropTypes.array,
     rowObjects: PropTypes.array
 }
 
-export default Cathalog;
+export default CathalogComponent;
