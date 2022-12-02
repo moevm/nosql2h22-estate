@@ -1,0 +1,121 @@
+.authorization-layout{
+  background-color: #F3F3F3;
+  height: 100vh;
+  width: 100%;
+}
+
+.authorization-header{
+  height: 127px;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.authorization-header-text{
+  font-size: 30px;
+  color: #202123;
+  font-family: "Source Sans 3";
+  font-weight: 600;
+  line-height: 127px;
+  margin-left: 54px;
+}
+
+.authorization-card{
+  margin-left: 650px;
+  margin-top: 141px;
+  background-color: #ffffff;
+  width: 480px;
+  height: 304px;
+  border-radius: 34px 34px 34px 34px;
+  position: relative;
+}
+
+.authorization-card-header-container{
+  position: relative;
+  top: 41px;
+  left: 40px; 
+}
+
+.authorization-card-header-text{
+  font-size: 22px;
+  color: #202123;
+  font-family: "Source Sans 3";
+  font-weight: 600;
+}
+
+.authorization-card-form{
+  position: relative;
+  top: 87px;
+  left: 40px; 
+}
+
+.authorization-card-form-header-text{
+  font-size: 15px;
+  color: #202123;
+  font-family: "Source Sans 3";
+  font-weight: 600;
+}
+
+.authorization-card-form-header-text-error{
+  font-size: 15px;
+  color: #ff3823;
+  font-family: "Source Sans 3";
+  font-weight: 600;
+}
+
+.authorization-card-form-input{
+  border: 2px solid #d8d9db;
+  width: 400px;
+  height: 48px;
+}
+
+.authorization-card-form-input-error{
+  border: 2px solid #ff3823;
+  width: 400px;
+  height: 48px;
+}
+
+.authorization-div-line{
+  position: relative;
+  top: 30px;
+  margin-left: -40px;
+  width: 480px;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.authorization-card-form-button{
+  background-color: #202123;
+  border-radius: 4px 4px 4px 4px;
+  width: 167px;
+  height: 36px;
+  position: relative;
+  top: 50px;
+  left: 116px;
+}
+
+.authorization-card-form-button:hover{
+  background-color: #444444;
+}
+
+.authorization-card-form-button-text{
+  font-size: 16px;
+  color: #ffffff;
+  font-family: "Source Sans 3";
+  font-weight: 600;
+}
+
+.authorization-card-form-err-msg-container{
+  position: relative;
+  margin-bottom: -24px;
+}
+
+.authorization-card-form-err-msg{
+  font-size: 15px;
+  color: #ff3823;
+  font-family: "Source Sans 3";
+  font-weight: 400;
+  height: 30px;
+}
+
+.authoriation-card-form-icon{
+  color: #ff3823;
+}

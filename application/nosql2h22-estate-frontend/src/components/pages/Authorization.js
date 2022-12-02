@@ -1,11 +1,95 @@
-import React from 'react'
+import React, { useState } from 'react'
+//components
+
+//icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+
+//styles
 import './../../styles/Authorization.css'
 
 const Authorization = () => {
   
+  const [errorWithAuthorization, setErrorWithAuthorization] = useState(false)
+
+  const handleKeyChange = (e) => {
+    console.log(e.target.value)
+    
+  }
+
+  const handleAuthorizationForm = (e) => {
+    e.preventDefault();
+
+    //setErrorWithAuthorization(!errorWithAuthorization)
+  }
+
+  function formBody() {
+    if (errorWithAuthorization){
+      return (
+        <div className="authorization-card-form">
+          <div className="authorization-card-form-header-container">
+            <span className="authorization-card-form-header-text-error">
+              Ключ администратора
+            </span>
+          </div>
+          <div className="authorization-card-form-input-container">
+            <input className="authorization-card-form-input-error" type="password" onChange={handleKeyChange}/>
+          </div>
+          <div className="authorization-card-form-err-msg-container">
+            <FontAwesomeIcon icon={faExclamationTriangle} className="authoriation-card-form-icon"/>
+            <span className="authorization-card-form-err-msg">
+              Неверный ключ администратора
+            </span>
+          </div>
+          <div className="authorization-div-line"></div>
+          <button className="authorization-card-form-button" type="submit">
+            <span className="authorization-card-form-button-text">
+              Вход
+            </span>
+          </button>
+        </div>
+      ) 
+    }else{
+      return (
+        <div className="authorization-card-form">
+          <div className="authorization-card-form-header-container">
+            <span className="authorization-card-form-header-text">
+              Ключ администратора
+            </span>
+          </div>
+          <div className="authorization-card-form-input-container">
+            <input className="authorization-card-form-input" type="password" onChange={handleKeyChange}/>
+          </div>
+          <div className="authorization-div-line"></div>
+          <button className="authorization-card-form-button" type="submit">
+            <span className="authorization-card-form-button-text">
+              Вход
+            </span>
+          </button>
+        </div>
+      )
+    }
+  }
+
   return (
-    <div>
-      <h1>Authorization</h1>
+    <div className="authorization-layout">
+
+      <div className="authorization-header">
+        <div className="authorization-header-text-container">
+          <span className="authorization-header-text">
+            Авторизация
+          </span>
+        </div>
+      </div>
+
+      <form className="authorization-card" onSubmit={handleAuthorizationForm}>
+        <div className="authorization-card-header-container">
+          <span className="authorization-card-header-text">
+            Вход
+          </span>
+        </div>
+        { formBody() }
+      </form>  
     </div>
   );
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import './../../styles/Sidebar.css'
 import {
   Link,
   useLocation
@@ -12,6 +11,9 @@ import { faBarChart } from '@fortawesome/free-solid-svg-icons'
 import { faAt } from '@fortawesome/free-solid-svg-icons'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import { faUpload } from '@fortawesome/free-solid-svg-icons'
+
+//styles
+import './../../styles/Sidebar.css'
 
 
 function importDS() {
