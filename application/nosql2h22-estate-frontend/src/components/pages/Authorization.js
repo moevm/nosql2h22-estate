@@ -12,15 +12,18 @@ const Authorization = () => {
   
   const [errorWithAuthorization, setErrorWithAuthorization] = useState(false)
 
+  const handleKeyChange = (e) => {
+    console.log(e.target.value)
+    
+  }
+
   const handleAuthorizationForm = (e) => {
     e.preventDefault();
 
-    console.log('authorization')
-    setErrorWithAuthorization(!errorWithAuthorization)
+    //setErrorWithAuthorization(!errorWithAuthorization)
   }
 
   function formBody() {
-    console.log(errorWithAuthorization)
     if (errorWithAuthorization){
       return (
         <div className="authorization-card-form">
@@ -30,7 +33,7 @@ const Authorization = () => {
             </span>
           </div>
           <div className="authorization-card-form-input-container">
-            <input className="authorization-card-form-input-error" type="password"/>
+            <input className="authorization-card-form-input-error" type="password" onChange={handleKeyChange}/>
           </div>
           <div className="authorization-card-form-err-msg-container">
             <FontAwesomeIcon icon={faExclamationTriangle} className="authoriation-card-form-icon"/>
@@ -55,7 +58,7 @@ const Authorization = () => {
             </span>
           </div>
           <div className="authorization-card-form-input-container">
-            <input className="authorization-card-form-input" type="password"/>
+            <input className="authorization-card-form-input" type="password" onChange={handleKeyChange}/>
           </div>
           <div className="authorization-div-line"></div>
           <button className="authorization-card-form-button" type="submit">
