@@ -4,7 +4,7 @@ import { defaultHouse } from "./houseScheme.js";
 import { logger } from "./logger.js";
 
 export const respondError = (res, error) => {
-  res.status(400).json({ status: "error", error });
+  res.status(400).json({ status: "error", error: error.message });
   logger.error("Request error: ", error);
 };
 
@@ -22,10 +22,12 @@ export const shortProjection = [
 ].reduce((res, k) => _.set(res, k, 1), {});
 
 export function parseFinding(key, value) {
-  const pattern = value
-    .split(",")
-    .map((str) => `(${str.trim()})`)
-    .join("|");
+  const pattern = _.isArray(value)
+    ? value.map((str) => `(${str.trim()})`).join("|")
+    : value
+        .split(",")
+        .map((str) => `(${str.trim()})`)
+        .join("|");
 
   if (!key.includes(".")) {
     return `/${pattern}/.test(this.${key})`;
@@ -48,4 +50,29 @@ export function normaliseHouse(object, scheme) {
   _.defaults(object, defaultHouse);
 
   normaliseBoolean(object, scheme);
+}
+
+export const getRandomKey = () =>
+  Date.now().toString(16) + Math.random().toString(16).slice(2);
+
+export async function validateToken(dbConnection, token) {
+  if (!+process.env.REQUIRE_KEY) {
+    return true;
+  }
+
+  const collections = await dbConnection
+    .listCollections()
+    .toArray()
+    .then((res) => res.map((collection) => collection.name));
+
+  console.log(collections);
+  if (!collections.includes("auth")) {
+    return false;
+  }
+
+  return dbConnection
+    .collection("auth")
+    .findOne()
+    .then((res) => console.log(res) || res.sessionKey === token)
+    .catch(() => false);
 }

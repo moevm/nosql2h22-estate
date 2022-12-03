@@ -8,6 +8,7 @@ import {
   shortProjection,
   parseFinding,
   normaliseHouse,
+  validateToken,
 } from "../utils.js";
 import { getDb } from "../db.js";
 import { scheme } from "../houseScheme.js";
@@ -111,10 +112,18 @@ housesRoutes.post("/", async (req, res) => {
 
   logger.info("POST /houses, data=", req.body);
 
+  const isValidToken = await validateToken(dbConnection, req.body.token);
+
+  if (!isValidToken) {
+    respondError(res, Error("Invalid token"));
+    return;
+  }
+
   const house = _.pick(
     req.body,
     scheme.map((prop) => prop.name)
   );
+
   const validationResult = isValid(req.body, scheme);
 
   if (validationResult.valid) {

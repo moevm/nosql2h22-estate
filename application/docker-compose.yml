@@ -18,6 +18,8 @@ services:
       - HOUSES_PER_PAGE=100
       - LOG_LEVEL=3
       - PORT=1337
+      - KEY=0e48b1f442ef4de19064663a91317f1c
+      - REQUIRE_KEY=1
     volumes:
       - log:/log
     ports:

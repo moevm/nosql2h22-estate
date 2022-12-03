@@ -6,6 +6,7 @@ import cors from "cors";
 import http from "http";
 
 import { connectToServer } from "./db.js";
+import { logger } from "./logger.js";
 import { routes } from "./routes/index.js";
 
 const app = express();
@@ -25,8 +26,8 @@ app.use(cookieParser());
 app.use("/", express.static("public"));
 app.use("/", routes);
 
+const port = +process.env.PORT || 1337;
+
 connectToServer()
-  .then(() => http.createServer(app).listen(+process.env.PORT || 1337))
-  .then(() =>
-    console.info(`Server launched on port ${process.env.PORT || 1337}`)
-  );
+  .then(() => http.createServer(app).listen(port))
+  .then(() => logger.info(`Server launched on port ${port}`));
