@@ -1,7 +1,9 @@
 import _ from "lodash";
-import { defaultHouse } from "./houseScheme.js";
+import { parseString } from "@fast-csv/parse";
 
+import { defaultHouse, scheme, csvHeaders as headers } from "./houseScheme.js";
 import { logger } from "./logger.js";
+import { parse } from "./parsing.js";
 
 export const respondError = (res, error) => {
   res.status(400).json({ status: "error", error: error.message });
@@ -52,27 +54,102 @@ export function normaliseHouse(object, scheme) {
   normaliseBoolean(object, scheme);
 }
 
-export const getRandomKey = () =>
-  Date.now().toString(16) + Math.random().toString(16).slice(2);
+export const getRandomKey = () => {
+  return Date.now().toString(16) + Math.random().toString(16).slice(2);
+};
+
+export function isCollectionExist(dbConnection, collectionName) {
+  return dbConnection
+    .listCollections()
+    .toArray()
+    .then((res) => res.map((collection) => collection.name))
+    .then((collections) => collections.includes(collectionName));
+}
 
 export async function validateToken(dbConnection, token) {
   if (!+process.env.REQUIRE_KEY) {
     return true;
   }
 
-  const collections = await dbConnection
-    .listCollections()
-    .toArray()
-    .then((res) => res.map((collection) => collection.name));
+  const isExist = await isCollectionExist(dbConnection, "auth");
 
-  console.log(collections);
-  if (!collections.includes("auth")) {
-    return false;
-  }
-
-  return dbConnection
-    .collection("auth")
-    .findOne()
-    .then((res) => console.log(res) || res.sessionKey === token)
-    .catch(() => false);
+  return isExist
+    ? dbConnection
+        .collection("auth")
+        .findOne()
+        .then((res) => res.sessionKey === token)
+        .catch(() => false)
+    : false;
 }
+
+export async function dropIfExist(dbConnection, collectionName) {
+  const isExist = await isCollectionExist(dbConnection, collectionName);
+
+  if (isExist) {
+    return dbConnection.collection(collectionName).drop();
+  }
+}
+
+export const parseDb = (csvString) =>
+  new Promise((resolve, reject) => {
+    const houses = [];
+
+    parseString(csvString, { headers, skipRows: 1 })
+      .on("error", (error) => reject(error))
+      .on("data", (house) => houses.push(transformHouse(house)))
+      .on("end", () => resolve(houses));
+
+    function transformHouse(house) {
+      const flatType = house.flatType
+        ? house.flatType.split(",").map((type) => +type.match(/\d+/)[0])
+        : null;
+      const communeType = house.communeType
+        ? house.communeType.split(",").map((type) => +type.match(/\d+/)[0])
+        : null;
+      const flatCount = house.flatCount
+        ? house.flatCount.split(",").map((val) => +val)
+        : null;
+      const communeCount = house.communeCount
+        ? house.communeCount.split(",").map((val) => +val)
+        : null;
+
+      const [houseNumbers, houseFractionNumber] = house.house.split("/");
+      const houseNumbersSplit = houseNumbers.split("-");
+
+      house.flat = _.zip(flatType, flatCount).map(([roomsCount, count]) => ({
+        roomsCount,
+        count,
+      }));
+
+      house.commune = _.zip(communeType, communeCount).map(
+        ([roomsCount, count]) => ({ roomsCount, count })
+      );
+
+      house.houseNumber =
+        houseNumbersSplit.length === 2
+          ? _.range(+houseNumbersSplit[0], +houseNumbersSplit[1] + 1).join(",")
+          : houseNumbers;
+
+      house.houseFractionNumber = houseFractionNumber;
+
+      ["flatType", "communeType", "flatCount", "communeCount", "house"].forEach(
+        (param) => _.unset(house, param)
+      );
+
+      return parseFields(house);
+    }
+
+    function parseFields(house) {
+      const fieldsToParse = scheme.filter(
+        ({ filter, name }) => !filter && !["commune", "flat"].includes(name)
+      );
+
+      fieldsToParse.forEach(({ name, type }) =>
+        _.set(house, name, parse(house[name], type))
+      );
+
+      normaliseHouse(house, scheme);
+
+      return house;
+    }
+  });

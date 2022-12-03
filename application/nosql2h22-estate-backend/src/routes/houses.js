@@ -9,6 +9,8 @@ import {
   parseFinding,
   normaliseHouse,
   validateToken,
+  dropIfExist,
+  parseDb,
 } from "../utils.js";
 import { getDb } from "../db.js";
 import { scheme } from "../houseScheme.js";
@@ -27,7 +29,7 @@ housesRoutes.get("/filter", async (req, res) => {
     return filter;
   }, []);
 
-  logger.info("GET /houses/filter, filter: ", filter);
+  logger.info("filter: ", filter);
 
   dbConnection
     .collection("houses")
@@ -42,7 +44,7 @@ housesRoutes.get("/short", async (req, res) => {
   const housesPerPage = +process.env.HOUSES_PER_PAGE || 5;
 
   if (!_.isInteger(+req.query.page)) {
-    logger.info("GET /houses/short, no page specified");
+    logger.info("no page specified");
 
     dbConnection
       .collection("houses")
@@ -52,7 +54,7 @@ housesRoutes.get("/short", async (req, res) => {
       .then((houses) => respondSuccess(res, houses))
       .catch((err) => respondError(res, err));
   } else {
-    logger.info(`GET /houses/short', page=${req.query.page}`);
+    logger.info(`page=${req.query.page}`);
 
     dbConnection
       .collection("houses")
@@ -70,8 +72,6 @@ housesRoutes.get("/short", async (req, res) => {
 housesRoutes.get("/:id", async (req, res) => {
   const dbConnection = getDb();
 
-  logger.info(`GET /houses/:id, id=${req.params.id}`);
-
   dbConnection
     .collection("houses")
     .findOne(ObjectId(req.params.id))
@@ -84,7 +84,7 @@ housesRoutes.get("/", async (req, res) => {
   const housesPerPage = +process.env.HOUSES_PER_PAGE || 5;
 
   if (!_.isInteger(+req.query.page)) {
-    logger.info("GET /houses, no page specified");
+    logger.info("no page specified");
 
     dbConnection
       .collection("houses")
@@ -93,7 +93,7 @@ housesRoutes.get("/", async (req, res) => {
       .then((houses) => respondSuccess(res, houses))
       .catch((err) => respondError(res, err));
   } else {
-    logger.info(`GET /houses', page=${req.query.page}`);
+    logger.info(`page=${req.query.page}`);
 
     dbConnection
       .collection("houses")
@@ -107,10 +107,41 @@ housesRoutes.get("/", async (req, res) => {
   }
 });
 
-housesRoutes.post("/", async (req, res) => {
+housesRoutes.post("/csv", async (req, res) => {
   const dbConnection = getDb();
 
-  logger.info("POST /houses, data=", req.body);
+  const isValidToken = await validateToken(dbConnection, req.body.token);
+
+  if (!isValidToken) {
+    respondError(res, Error("Invalid token"));
+    return;
+  }
+
+  if (!req.files.db) {
+    const error = Error(`
+    No csv file specified
+    curl example:
+    curl -F'db=@db.csv' -F'token=token' http://127.0.0.1:1337/houses/csv
+    `);
+
+    respondError(res, error);
+    return;
+  }
+
+  const csvString = req.files.db.data.toString();
+  const houses = await parseDb(csvString);
+
+  await dropIfExist(dbConnection, "houses");
+
+  dbConnection
+    .collection("houses")
+    .insertMany(houses)
+    .then(() => respondSuccess(res))
+    .catch((err) => respondError(res, err));
+});
+
+housesRoutes.post("/", async (req, res) => {
+  const dbConnection = getDb();
 
   const isValidToken = await validateToken(dbConnection, req.body.token);
 
@@ -127,7 +158,7 @@ housesRoutes.post("/", async (req, res) => {
   const validationResult = isValid(req.body, scheme);
 
   if (validationResult.valid) {
-    logger.info(`POST /houses, house validated`);
+    logger.info(`house validated`);
 
     normaliseHouse(house, scheme);
 

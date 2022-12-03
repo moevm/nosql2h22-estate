@@ -11,7 +11,7 @@ statsRoutes.get("/area", async (req, res) => {
   const district = req.query.district;
   const dbConnection = getDb();
 
-  logger.info(`GET /stats/area, district=${district}`);
+  logger.info(`district=${district}`);
 
   dbConnection
     .collection("houses")
@@ -27,7 +27,7 @@ statsRoutes.get("/flats", async (req, res) => {
   const district = req.query.district;
   const dbConnection = getDb();
 
-  logger.info(`GET /stats/flats, district=${district}`);
+  logger.info(`district=${district}`);
 
   dbConnection
     .collection("houses")
@@ -46,7 +46,7 @@ statsRoutes.get("/residents", async (req, res) => {
   const district = req.query.district;
   const dbConnection = getDb();
 
-  logger.info(`GET /stats/residents, district=${district}`);
+  logger.info(`district=${district}`);
 
   dbConnection
     .collection("houses")
