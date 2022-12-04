@@ -168,6 +168,6 @@ housesRoutes.post("/", async (req, res) => {
       .then((dbRes) => respondSuccess(res, dbRes.insertedId))
       .catch((err) => respondError(res, err));
   } else {
-    respondError(res, validationResult.message);
+    respondError(res, Error(validationResult.message));
   }
 });
