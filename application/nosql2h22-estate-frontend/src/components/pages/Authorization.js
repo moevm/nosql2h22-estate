@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 //components
 
 //icons
@@ -8,19 +9,43 @@ import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 //styles
 import './../../styles/Authorization.css'
 
-const Authorization = () => {
+const Authorization = (props) => {
   
   const [errorWithAuthorization, setErrorWithAuthorization] = useState(false)
+  const [adminKey, setAdminKey] = useState("")
 
   const handleKeyChange = (e) => {
-    console.log(e.target.value)
-    
+    setAdminKey(e.target.value)
   }
 
   const handleAuthorizationForm = (e) => {
     e.preventDefault();
 
-    //setErrorWithAuthorization(!errorWithAuthorization)
+    fetch('http://localhost:1337/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({key: adminKey})
+    })
+	        .then(res => res.json())
+	        .then( (res) => {
+            if(!localStorage.getItem('isAuthorized')){
+              if(res.status === "done"){
+                localStorage.setItem('isAuthorized', true)
+                props.setIsAuthorized(true)
+                props.setToken(res.message)
+                setErrorWithAuthorization(false)
+                window.location.href = 'http://localhost:3000/'
+              }else{
+                setErrorWithAuthorization(true)
+              }
+            }else{
+              console.log('already authorized')
+              window.location.href = 'http://localhost:3000/'
+            }
+	        });
+    setAdminKey('')     
   }
 
   function formBody() {
@@ -33,7 +58,7 @@ const Authorization = () => {
             </span>
           </div>
           <div className="authorization-card-form-input-container">
-            <input className="authorization-card-form-input-error" type="password" onChange={handleKeyChange}/>
+            <input className="authorization-card-form-input-error" type="password" onChange={handleKeyChange} value={adminKey}/>
           </div>
           <div className="authorization-card-form-err-msg-container">
             <FontAwesomeIcon icon={faExclamationTriangle} className="authoriation-card-form-icon"/>
@@ -58,7 +83,7 @@ const Authorization = () => {
             </span>
           </div>
           <div className="authorization-card-form-input-container">
-            <input className="authorization-card-form-input" type="password" onChange={handleKeyChange}/>
+            <input className="authorization-card-form-input" type="password" onChange={handleKeyChange} value={adminKey}/>
           </div>
           <div className="authorization-div-line"></div>
           <button className="authorization-card-form-button" type="submit">
@@ -94,5 +119,10 @@ const Authorization = () => {
   );
 
 };
+
+Authorization.propTypes = {
+  setIsAuthorized: PropTypes.func,
+  setToken: PropTypes.func
+}
 
 export default Authorization;
