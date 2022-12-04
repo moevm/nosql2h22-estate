@@ -37,6 +37,13 @@ services:
         - mongo
       ports:
         - 42069:8081
+        
+  frontend:
+    container_name: client
+    build: ./nosql2h22-estate-frontend
+    network_mode: host
+
+
 
 volumes:
   log:
