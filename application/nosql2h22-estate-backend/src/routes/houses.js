@@ -42,31 +42,20 @@ housesRoutes.get("/filter", async (req, res) => {
 housesRoutes.get("/short", async (req, res) => {
   const dbConnection = getDb();
   const housesPerPage = +process.env.HOUSES_PER_PAGE || 5;
+  const page = _.isInteger(+req.query.page) ? Math.max(+req.query.page, 1) : 1;
 
-  if (!_.isInteger(+req.query.page)) {
-    logger.info("no page specified");
+  logger.info(`page=${page}`);
 
-    dbConnection
-      .collection("houses")
-      .find()
-      .project(shortProjection)
-      .toArray()
-      .then((houses) => respondSuccess(res, houses))
-      .catch((err) => respondError(res, err));
-  } else {
-    logger.info(`page=${req.query.page}`);
-
-    dbConnection
-      .collection("houses")
-      .find()
-      .project(shortProjection)
-      .sort({ _id: 1 })
-      .skip(+req.query.page * housesPerPage)
-      .limit(housesPerPage)
-      .toArray()
-      .then((houses) => respondSuccess(res, houses))
-      .catch((err) => respondError(res, err));
-  }
+  dbConnection
+    .collection("houses")
+    .find()
+    .project(shortProjection)
+    .sort({ _id: 1 })
+    .skip((page - 1) * housesPerPage)
+    .limit(housesPerPage)
+    .toArray()
+    .then((houses) => respondSuccess(res, houses))
+    .catch((err) => respondError(res, err));
 });
 
 housesRoutes.get("/:id", async (req, res) => {
@@ -82,29 +71,19 @@ housesRoutes.get("/:id", async (req, res) => {
 housesRoutes.get("/", async (req, res) => {
   const dbConnection = getDb();
   const housesPerPage = +process.env.HOUSES_PER_PAGE || 5;
+  const page = _.isInteger(+req.query.page) ? Math.max(+req.query.page, 1) : 1;
 
-  if (!_.isInteger(+req.query.page)) {
-    logger.info("no page specified");
+  logger.info(`page=${page}`);
 
-    dbConnection
-      .collection("houses")
-      .find()
-      .toArray()
-      .then((houses) => respondSuccess(res, houses))
-      .catch((err) => respondError(res, err));
-  } else {
-    logger.info(`page=${req.query.page}`);
-
-    dbConnection
-      .collection("houses")
-      .find()
-      .sort({ _id: 1 })
-      .skip(+req.query.page * housesPerPage)
-      .limit(housesPerPage)
-      .toArray()
-      .then((houses) => respondSuccess(res, houses))
-      .catch((err) => respondError(res, err));
-  }
+  dbConnection
+    .collection("houses")
+    .find()
+    .sort({ _id: 1 })
+    .skip((page - 1) * housesPerPage)
+    .limit(housesPerPage)
+    .toArray()
+    .then((houses) => respondSuccess(res, houses))
+    .catch((err) => respondError(res, err));
 });
 
 housesRoutes.post("/csv", async (req, res) => {
