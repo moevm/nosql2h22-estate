@@ -3,7 +3,7 @@ import React, {useEffect, useState, useReducer} from 'react'
 
 //Components
 import HouseAddressList from './HouseAddressList';
-import { YMaps, Map } from "react-yandex-maps";
+import { YMaps, Map, Placemark } from "react-yandex-maps";
 
 //Styles
 import './../../../styles/Map/MapComponent.css'
@@ -27,26 +27,29 @@ function MapComponent(){
   }, [isNewCoord]);
 
   const geocode = () => {
-    console.log('geocoding')
-    console.log('currentAddress:', currentAddress)
-
     let url = new URL('https://geocode-maps.yandex.ru/1.x/')
-	  url.searchParams.append("geocode", currentAddress)
-    url.searchParams.append("apikey", "368ea89a-29e6-4b8a-881f-b59a7bab8369")
-    console.log(url)
-    /*fetch(url)
+	  url.searchParams.append("apikey", "368ea89a-29e6-4b8a-881f-b59a7bab8369")
+    url.searchParams.append("geocode", currentAddress)
+    url.searchParams.append("format", "json")
+    fetch(url)
         .then(res => res.json())
         .then( (res) => {
-            console.log(res)
-        });*/
-    /*if(currentAddress){
-      ymaps.geocode(currentAddress)
-        .then(result => {
-          console.log(result.geoObjects.get(0).geometry.getCoordinates())
-          setCoords({ coordinates: result.geoObjects.get(0).geometry.getCoordinates() })
+            //console.log(res)
+            //console.log(res.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos)
+            let coordArr = res.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")
+            setCoords({coordinates: [parseFloat(coordArr[1]), parseFloat(coordArr[0])]})
         })
-    }*/
   }
+
+  function getMark(geometry){
+    console.log('geometry = ', geometry)
+    return <Placemark geometry={geometry} options={{
+        preset: 'islands#circleIcon',
+        iconColor: 'green',
+      }}
+    />
+  }
+
   console.log(coords)
   
   return(
@@ -57,7 +60,9 @@ function MapComponent(){
       <div className="map-houses-map">
         <YMaps query={{ns: "use-load-option", apikey: "368ea89a-29e6-4b8a-881f-b59a7bab8369"}}>
           <Map defaultState={{ center: coords.coordinates, zoom: 11 }}  style={{height: "800px", width: "1060px"}}
-          />
+          >
+            {getMark(coords.coordinates)}
+          </Map>  
         </YMaps>
       </div>
     </div>    

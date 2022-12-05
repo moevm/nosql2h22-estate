@@ -10,7 +10,7 @@ import './../../../styles/Map/HouseAddressItem.css'
 const HouseAddressItem = (props) => {
 
   const onClick = (value) => {
-    props.handleItemClick(value)
+    props.handleItemClick('Санкт-Петербург, ' + value)
   }
 
   return (
