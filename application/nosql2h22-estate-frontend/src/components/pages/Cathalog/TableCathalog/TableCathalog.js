@@ -20,7 +20,7 @@ function TableCathalog(props) {
 
     useEffect(() => {
         Initialize();
-    })
+    }, [isInitialize])
 
     function Initialize() {
         if(!isInitialize) {
