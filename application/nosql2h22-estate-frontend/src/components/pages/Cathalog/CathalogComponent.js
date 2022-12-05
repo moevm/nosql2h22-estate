@@ -32,7 +32,6 @@ function CathalogComponent(props){
 	            setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
 	        });
 	} else {
-	    console.log('has filter')
 	    let url = new URL('http://localhost:1337/houses/filter')
 	    for (let k in filter) {
 	        url.searchParams.append(k, filter[k]);
@@ -40,7 +39,6 @@ function CathalogComponent(props){
 	    fetch(url)
 	        .then(res => res.json())
 	        .then( (res) => {
-	            console.log('res = ', res.message)
 	            setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
 	        });
 	}
