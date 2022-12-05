@@ -1,12 +1,12 @@
 import React, {useEffect, useState, useReducer} from 'react'
 import ButtonSearchCathalog from "./ButtonsCathalog/ButtonSearchCathalog";
-import ButtonFilterCathalog from "./ButtonsCathalog/ButtonFilterCathalog/ButtonFilterCathalog";
+import ButtonFilter from "../Common/ButtonFilter/ButtonFilter";
 import ButtonSorterCathalog from "./ButtonsCathalog/ButtonSorterCathalog";
 import TableCathalog from "./TableCathalog/TableCathalog";
-import '../../../styles/Cathalog/Cathalog.css'
+import '../../../styles/Cathalog/CathalogComponent.css'
 import PropTypes from "prop-types";
 
-import {col_names, col_names_eng, test_rowdata} from './data_info.js'
+import {col_names, col_names_eng, test_rowdata} from '../Common/data_info.js'
 
 function CathalogComponent(props){
     let [filter, setFilter] = useState({})
@@ -25,35 +25,35 @@ function CathalogComponent(props){
 
 
     function InitializeRowObjects() {
-	if(Object.keys(filter).length === 0) {
-	    fetch('http://localhost:1337/houses/')
-	        .then(res => res.json())
-	        .then( (res) => {
-	            setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
-	        });
-	} else {
-	    let url = new URL('http://localhost:1337/houses/filter')
-	    for (let k in filter) {
-	        url.searchParams.append(k, filter[k]);
-	    }
-	    fetch(url)
-	        .then(res => res.json())
-	        .then( (res) => {
-	            setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
-	        });
-	}
-    }
+        if(Object.keys(filter).length === 0) {
+            fetch('http://localhost:1337/houses/')
+                .then(res => res.json())
+                .then( (res) => {
+                    setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
+                });
+        } else {
+            let url = new URL('http://localhost:1337/houses/filter')
+            for (let k in filter) {
+                url.searchParams.append(k, filter[k]);
+            }
+            fetch(url)
+                .then(res => res.json())
+                .then( (res) => {
+                    setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
+                });
+        }
+    }    
 
     useEffect(() => {
         if(!isInitialize) {
-	       SetProps();
-	    }
+            SetProps();
+        }
     }, [isInitialize])
 
     useEffect(() => {
         if(!isInitialize) {
-	       setIsInitialize(true)
-	    }
+            setIsInitialize(true)
+        }
     }, [rowObjects])
 
     function SetProps() {
@@ -114,7 +114,7 @@ function CathalogComponent(props){
     }
 
     function Handler() {
-	//setRowObjects([])
+        //setRowObjects([])
         setIsInitialize(false)
     }
 
@@ -145,16 +145,16 @@ function CathalogComponent(props){
     //alert("begined: " + JSON.stringify(rowObjects))
     return (
         <div className="cathalog">
-          <div className="rectangle-23">
-              <div className="panel">
-                  <ButtonSearchCathalog Handler={HandlerSearch}/>
-                  <div className="EmptySurfacePanel"/>
-                  <ButtonFilterCathalog columns={columns} Handler={HandlerFilter} columnsEng={columnsEng}/>
-                  <div className="EmptySurfacePanelSecond"/>
-                  <ButtonSorterCathalog columns={columns} Handler={HandlerSort}/>
-              </div>
-              {DisplayTableCathalog()}
-          </div>
+            <div className="rectangle-23">
+                <div className="panel">
+                    <ButtonSearchCathalog Handler={HandlerSearch}/>
+                    <div className="EmptySurfacePanel"/>
+                    <ButtonFilter columns={columns} Handler={HandlerFilter} columnsEng={columnsEng}/>
+                    <div className="EmptySurfacePanelSecond"/>
+                    <ButtonSorterCathalog columns={columns} Handler={HandlerSort}/>
+                </div>
+                {DisplayTableCathalog()}
+            </div>
         </div>
     );
 

@@ -1,0 +1,73 @@
+.Modal {
+}
+
+.ModalButton {
+
+}
+
+
+.ModalOptionName {
+    font-family: "Source Sans 3", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-control {
+    height: 40px;
+}
+
+.form-control:active {
+}
+
+.ModalOffset {
+    height: 20px;
+}
+
+.ModalContent {
+    overflow-y:scroll;
+    height: 300px;
+    width: inherit;
+
+}
+
+
+.authorization-card-form-modal {
+    position: relative;
+    height: 40px;
+    margin-right: 15px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+}
+
+.authorization-card-form-modal-button{
+    background-color: #202123;
+    border-color: #202123;
+    border-radius: 4px 4px 4px 4px;
+    width: 167px;
+    height: 36px;
+    position: relative;
+    margin-left: 10px;
+}
+
+.authorization-card-form-modal-button:hover{
+    background-color: #444444;
+    border-color: #444444;
+}
+
+.authorization-card-form-modal-button-text{
+    font-size: 16px;
+    color: #ffffff;
+    font-family: "Source Sans 3";
+    font-weight: 600;
+}
+
+.modal-footer {
+    padding: 0;
+}
+
+.authorization-card-form-modal-input{
+    border: 2px solid #d8d9db;
+    width: 750px;
+    height: 48px;
+}
