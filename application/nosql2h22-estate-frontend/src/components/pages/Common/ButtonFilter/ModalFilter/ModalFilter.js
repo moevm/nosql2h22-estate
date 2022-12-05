@@ -2,10 +2,10 @@ import React, {useState} from 'react'
 import PropTypes from "prop-types";
 import {Modal} from "react-bootstrap";
 import {Button} from "react-bootstrap";
-import '../../../../../../styles/Cathalog/ButtonsCathalog/ModalFilterCathalog.css'
+import '../../../../../styles/Common/ButtonFilter/ModalFilter.css'
 
 
-function ModalFilterCathalog(props) {
+function ModalFilter(props) {
     let [filter, setFilter] = useState({})
 
 
@@ -35,7 +35,7 @@ function ModalFilterCathalog(props) {
 
     function CustomModalInput(value) {
         return (
-            <textarea className="form-control" id="message-text" onChange={(e)=>{Input(e, value)}}/>
+            <input className="authorization-card-form-modal-input" id="message-text" onChange={(e)=>{Input(e, value)}}/>
         )
     }
 
@@ -71,19 +71,25 @@ function ModalFilterCathalog(props) {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button className="ModalButton" variant="secondary" onClick={()=>{OnClickCancel()}}>
-                    Сбросить фильтры
-                </Button>
-                <Button className="ModalButton" variant="secondary" onClick={()=>{OnClickSubmit()}}>
-                    Применить
-                </Button>
+                <div className={"authorization-card-form-modal"}>
+                    <button className="authorization-card-form-modal-button" type="submit" onClick={()=>{OnClickCancel()}}>
+                        <span className="authorization-card-form-button-text">
+                          Сбросить фильтры
+                        </span>
+                    </button>
+                    <button className="authorization-card-form-modal-button" type="submit" onClick={()=>{OnClickSubmit()}}>
+                        <span className="authorization-card-form-modal-button-text">
+                          Применить
+                        </span>
+                    </button>
+                </div>
             </Modal.Footer>
         </Modal>
     )
 
 }
 
-ModalFilterCathalog.propTypes = {
+ModalFilter.propTypes = {
     Handler: PropTypes.func,
     columns: PropTypes.array,
     columnsEng: PropTypes.array,
@@ -94,4 +100,4 @@ ModalFilterCathalog.propTypes = {
     onClickSubmit: PropTypes.func
 }
 
-export default ModalFilterCathalog;
+export default ModalFilter;
