@@ -1,0 +1,19 @@
+.ButtonFilterOffset {
+    margin-top: 17px;
+    margin-left: 1051px;
+}
+
+
+.rectangle-40 {
+    background-color: #ffffff;
+}
+
+.StatisticsBlocks {
+    width: 1200px;
+    margin-left: 16px;
+
+}
+
+.StatisticsBlocks div {
+    display: inline-block;
+}

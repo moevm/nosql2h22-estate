@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
-import '../../../../../styles/Cathalog/ButtonsCathalog/ButtonFilterCathalog.css'
+import '../../../../styles/Common/ButtonFilter/ButtonFilter.css'
 import PropTypes from "prop-types";
-import ModalFilterCathalog from './ModalFilterCathalog/ModalFilterCathalog'
+import ModalFilter from './ModalFilter/ModalFilter'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 
-function ButtonFilterCathalog(props) {
+function ButtonFilter(props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -25,7 +25,7 @@ function ButtonFilterCathalog(props) {
 
     return (
         <>
-            <ModalFilterCathalog
+            <ModalFilter
                 showFunc={show}
                 onHide={()=>{Hide()}}
                 columns={props.columns}
@@ -43,10 +43,10 @@ function ButtonFilterCathalog(props) {
 
 };
 
-ButtonFilterCathalog.propTypes = {
+ButtonFilter.propTypes = {
     Handler: PropTypes.func,
     columns: PropTypes.array,
     columnsEng: PropTypes.array
 }
 
-export default ButtonFilterCathalog;
+export default ButtonFilter;
