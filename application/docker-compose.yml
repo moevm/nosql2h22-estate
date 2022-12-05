@@ -40,12 +40,12 @@ services:
         
   frontend:
     container_name: client
+    ports:
+      - 3000:3000
     build: ./nosql2h22-estate-frontend
-    network_mode: host
-
-
 
 volumes:
   log:
   mongo:
   mongodb-data:
+
