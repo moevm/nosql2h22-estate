@@ -21,6 +21,14 @@ function App() {
     setIsLoggedIn(false)
   }
 
+  const adminProfileRoute = () => {
+    if(isLoggedIn === 'true'){
+      return <Route path="/adminProfile" element={<AdminProfile/>}/>
+    }else{
+      return <></>
+    }
+  }
+
   return (
     <div className="App">
       <Routes>
@@ -28,7 +36,7 @@ function App() {
           <Route path="/" element={<Cathalog isAuthorized={isLoggedIn}/>}/>
           <Route path="/map" element={<Map isAuthorized={isLoggedIn}/>}/>
           <Route path="/stat" element={<Statistics isAuthorized={isLoggedIn}/>}/>
-          <Route path="/testAdminProfile" element={<AdminProfile/>}/>
+          { adminProfileRoute() }
           <Route path="/testHouseProfile" element={<HouseProfile/>}/>
         </Route> 
         <Route path="/auth" element={<Authorization setIsAuthorized={setIsLoggedIn} setToken={setToken} isAuthorized={isLoggedIn}/>}/>

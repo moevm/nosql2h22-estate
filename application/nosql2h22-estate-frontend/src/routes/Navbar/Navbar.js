@@ -1,16 +1,32 @@
+//React
 import React from 'react'
-import './../../styles/Navbar.css'
+import {
+  Link
+} from "react-router-dom";
+import PropTypes from "prop-types"
 
-import PropTypes from "prop-types";
+//Icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+
+//Styles
+import './../../styles/Navbar.css'
 
 const Navbar = (props) => {
 
   const adminLink = () => {
     if(props.isAuthorized === 'true'){
       return (
-        <div className="admin-link">
-          ADMIN
-        </div>
+        <Link to="/adminProfile" style={{ textDecoration: 'none' }}>
+          <div className="admin-link">
+            <span className="icon">
+              <FontAwesomeIcon icon={faUserCircle} />{' '}
+            </span>
+            <span className="item-text">
+              Администратор
+            </span>
+          </div>
+        </Link>
       )
     }else{
       return <div></div>
