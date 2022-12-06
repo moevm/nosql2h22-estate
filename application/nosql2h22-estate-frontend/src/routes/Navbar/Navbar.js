@@ -5,6 +5,18 @@ import PropTypes from "prop-types";
 
 const Navbar = (props) => {
 
+  const adminLink = () => {
+    if(props.isAuthorized === 'true'){
+      return (
+        <div className="admin-link">
+          ADMIN
+        </div>
+      )
+    }else{
+      return <div></div>
+    }
+  }
+
   return (
     <div>
       <div className="text-content">
@@ -17,9 +29,7 @@ const Navbar = (props) => {
           </span>
         </p>
       </div>
-      <div className="admin-link">
-        ADMIN
-      </div>
+      {adminLink()}
     </div>
   );
 
@@ -27,7 +37,8 @@ const Navbar = (props) => {
 
 Navbar.propTypes = {
   headerText: PropTypes.string,
-  descText: PropTypes.string
+  descText: PropTypes.string,
+  isAuthorized: PropTypes.string
 }
 
 export default Navbar;

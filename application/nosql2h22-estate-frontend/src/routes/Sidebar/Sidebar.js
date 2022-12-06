@@ -3,6 +3,8 @@ import {
   Link,
   useLocation
 } from "react-router-dom";
+import PropTypes from 'prop-types'
+
 //Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons'
@@ -11,6 +13,7 @@ import { faBarChart } from '@fortawesome/free-solid-svg-icons'
 import { faAt } from '@fortawesome/free-solid-svg-icons'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import { faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 
 //styles
 import './../../styles/Sidebar.css'
@@ -22,6 +25,11 @@ function importDS() {
 
 function exportDS() {
   console.log('export')
+}
+
+function exit(e) {
+  console.log('exit')
+  e()
 }
 
 function SidebarItem(text, link, icon) {
@@ -53,11 +61,25 @@ function SidebarItem(text, link, icon) {
   }
 }
 
+const Sidebar = (props) => {
 
-const Sidebar = () => {
+  const SidebarExitButton = () => {
+    if (props.isAuthorized === 'true'){
+      return (
+        <div className="exit-button-item">
+          <button className="button" onClick={() => exit(props.handleAdminExit)}>
+            <FontAwesomeIcon icon={faSignOut} />{' '}
+            Выход
+          </button>   
+        </div>
+      )  
+    }else{
+      return <div></div>
+    }
+  }
+
   return (
     <div>
-
       <div className="header-item">
         <span className="at-sign-icon">
           <FontAwesomeIcon icon={faAt} />
@@ -89,15 +111,22 @@ const Sidebar = () => {
       </div>
 
       <div className="button-item">
-        <button className="button" onClick={exportDS}>
+        <button className="button" onClick={() => exportDS()}>
           <FontAwesomeIcon icon={faDownload} />{' '}
           Экспорт НД
         </button>   
       </div>
 
+      {SidebarExitButton()}
+
     </div>
   );
 
 };
+
+Sidebar.propTypes = {
+  handleAdminExit: PropTypes.func,
+  isAuthorized: PropTypes.string
+}
 
 export default Sidebar;

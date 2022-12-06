@@ -1,14 +1,20 @@
+//React
 import React from 'react'
+import PropTypes from 'prop-types'
+
+//Components
 import Navbar from "../../routes/Navbar/Navbar";
 import StatisticsComponent from "./Statistics/StatisticsComponent";
+
+//Styles
 //import './../../styles/Statistics.css'
 
-const Statistics = () => {
+const Statistics = (props) => {
 
     return (
         <div>
             <div className="navbar">
-                <Navbar headerText={"Статистика жилищного фонда"} descText={"Ниже представлены графики со статистикой о жилых домах"}/>
+                <Navbar headerText={"Статистика жилищного фонда"} descText={"Ниже представлены графики со статистикой о жилых домах"} isAuthorized={props.isAuthorized}/>
             </div>
             <div className="statistics-component">
                 <StatisticsComponent/>
@@ -17,5 +23,9 @@ const Statistics = () => {
     );
 
 };
+
+Statistics.propTypes = {
+    isAuthorized: PropTypes.string  
+}
 
 export default Statistics;
