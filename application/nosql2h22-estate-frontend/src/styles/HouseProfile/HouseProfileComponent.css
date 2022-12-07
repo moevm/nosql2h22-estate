@@ -13,18 +13,16 @@
 }
 
 .fieldMap {
-    margin-left: 37px;
     margin-top: 7px;
+    margin-left: 37px;
     width: 361px;
     height: 554px;
-    margin-bottom: 100px;
     background-color: red;
 }
 
 .fieldAttributes {
     width: 300px;
     margin-left: 65px;
-    margin-bottom: 105px;
     height: 554px;
     overflow-y:scroll;
 }

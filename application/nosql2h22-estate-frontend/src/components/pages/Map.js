@@ -14,9 +14,6 @@ const Map = (props) => {
   
   return (
     <div>
-      <div className="navbar">
-        <Navbar headerText={"Карта жилищного фонда"} descText={"Ниже представлена карта с информацией о жилых домах"} isAuthorized={props.isAuthorized}/>
-      </div>
       <div className="map-component">
         <MapComponent/>
       </div>

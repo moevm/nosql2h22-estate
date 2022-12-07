@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 //Styles
 import './../../../styles/Map/HouseAddressItem.css'
+import ButtonHouseProfile from "./ButtonHouseProfile";
 
 
 
@@ -17,12 +18,14 @@ const HouseAddressItem = (props) => {
     <div>
       <div className="house-address-item">
         <div onClick={() => onClick(props.address)}>
-          <span className="house-address-text">
-            {props.address}
-          </span>
+          <div className={"house-address-text-offset"}>
+            <span className="house-address-text">
+              {props.address}
+            </span>
+          </div>
         </div>
         <div>
-          e
+          <ButtonHouseProfile id={props.id}/>
         </div>
       </div>
     </div>  
@@ -30,6 +33,7 @@ const HouseAddressItem = (props) => {
 }
 
 HouseAddressItem.propTypes = {
+  id: PropTypes.string,
   address: PropTypes.string,
   handleItemClick: PropTypes.func
 }

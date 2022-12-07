@@ -38,6 +38,7 @@ function App() {
           <Route path="/stat" element={<Statistics isAuthorized={isLoggedIn}/>}/>
           { adminProfileRoute() }
           <Route path="/testHouseProfile" element={<HouseProfile/>}/>
+          <Route path='/map/:id' element={<HouseProfile/>}/>
         </Route> 
         <Route path="/auth" element={<Authorization setIsAuthorized={setIsLoggedIn} setToken={setToken} isAuthorized={isLoggedIn}/>}/>
       </Routes>

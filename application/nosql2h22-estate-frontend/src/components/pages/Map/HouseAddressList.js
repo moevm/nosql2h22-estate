@@ -7,6 +7,8 @@ import HouseAddressItem from './HouseAddressItem'
 
 //Styles
 import './../../../styles/Map/HouseAddressList.css'
+import ButtonFilter from "../Common/ButtonFilter/ButtonFilter";
+import {col_names, col_names_eng} from '../Common/data_info.js'
 
 const HouseAddressList = (props) => {
 
@@ -38,16 +40,20 @@ const HouseAddressList = (props) => {
     getNewAddresses();
   }, []);
 
+  function Handler(value) {
+
+  }
+
   return (
     <div>
       <div className="map-filter-panel">
-        Тут должна быть кнопка фильтра
+        <ButtonFilter columns={col_names} columnsEng={col_names_eng} Handler={Handler}/>
       </div>
       <div className="house-address-items-container">
         {
           addresses.data.map((item) => {
             return <HouseAddressItem 
-              key={item._id} 
+              id={item._id}
               address={item.street + ', ' + item.houseNumber[0] + '/' + item.houseFractionNumber + ', ' + item.character + ', ' + item.district + ' район'} 
               handleItemClick={props.handleItemClick}
               />;
