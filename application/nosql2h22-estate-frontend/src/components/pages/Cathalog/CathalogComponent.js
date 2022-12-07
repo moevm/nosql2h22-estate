@@ -23,26 +23,37 @@ function CathalogComponent(props){
     let [test, setTest] = useState(true)
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
 
+    let [buttonsMaxPage, setButtonsMaxPage] = useState(100);
+    let [currentPage, setCurrentPage] = useState("1");
 
     function InitializeRowObjects() {
+
         if(Object.keys(filter).length === 0) {
-            fetch('http://localhost:1337/houses/')
+            console.log('no has filter')
+            let url = new URL('http://localhost:1337/houses')
+            url.searchParams.append("page", currentPage)
+            fetch(url)
                 .then(res => res.json())
                 .then( (res) => {
-                    setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
+                    console.log('res = ', res.message)
+                    setRowObjects(res.message)
                 });
         } else {
+            console.log('has filter')
             let url = new URL('http://localhost:1337/houses/filter')
             for (let k in filter) {
                 url.searchParams.append(k, filter[k]);
             }
+            url.searchParams.append("page", currentPage)
             fetch(url)
                 .then(res => res.json())
                 .then( (res) => {
-                    setRowObjects(SortRowObjects(SearchRowObjects(res.message)))
+                    console.log('res = ', res.message)
+                    setRowObjects(res.message)
                 });
         }
-    }    
+        //setRowObjects(SortRowObjects(SearchRowObjects(test_rowdata)))
+    }
 
     useEffect(() => {
         if(!isInitialize) {
@@ -68,7 +79,7 @@ function CathalogComponent(props){
         if (test) {
             setColumns(col_names)
             setColumnsEng(col_names_eng)
-            //setTestRowObjects(test_rowdata)
+            setTestRowObjects(test_rowdata)
             setTest(false)
         }
     }
@@ -134,29 +145,40 @@ function CathalogComponent(props){
         Handler()
     }
 
+    function HandlerPage(value) {
+        setCurrentPage(value)
+        Handler()
+    }
+
     function DisplayTableCathalog() {
-        if(isInitialize) {
+        if(isInitialize && (rowObjects.length !== 0)) {
             return (
-                <TableCathalog columns={columns} rowObjects={rowObjects}/>
+                <TableCathalog columns={columns} rowObjects={rowObjects} currentPage={currentPage} Handler={HandlerPage} buttonsMaxPage={buttonsMaxPage}/>
             )
         }
     }
 
     //alert("begined: " + JSON.stringify(rowObjects))
-    return (
-        <div className="cathalog">
-            <div className="rectangle-23">
-                <div className="panel">
-                    <ButtonSearchCathalog Handler={HandlerSearch}/>
-                    <div className="EmptySurfacePanel"/>
-                    <ButtonFilter columns={columns} Handler={HandlerFilter} columnsEng={columnsEng}/>
-                    <div className="EmptySurfacePanelSecond"/>
-                    <ButtonSorterCathalog columns={columns} Handler={HandlerSort}/>
+    if(isInitialize)
+        return (
+            <div className="cathalog">
+                <div className="rectangle-23">
+                    <div className="panel">
+                        <ButtonSearchCathalog Handler={HandlerSearch}/>
+                        <div className="EmptySurfacePanel"/>
+                        <ButtonFilter columns={columns} Handler={HandlerFilter} columnsEng={columnsEng}/>
+                        <div className="EmptySurfacePanelSecond"/>
+                        <ButtonSorterCathalog columns={columns} Handler={HandlerSort}/>
+                    </div>
+                    {DisplayTableCathalog()}
                 </div>
-                {DisplayTableCathalog()}
             </div>
-        </div>
-    );
+        );
+    else {
+        return (
+            <div/>
+        )
+    }
 
 };
 
