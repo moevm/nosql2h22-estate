@@ -19,17 +19,17 @@ function TableCathalog(props) {
     let [isInitialize, setIsInitialize] = useState(false)
 
     useEffect(() => {
-        Initialize();
-    }, [isInitialize])
+        if(!isInitialize) {
+            Initialize();
+        }
+    })
 
     function Initialize() {
-        if(!isInitialize) {
-            SetProps();
-            DividePageTableCathalog(rowObjects)
-            if(rowObjects.length !== 0) {
-                setCurrentPage("1")
-                setIsInitialize(true)
-            }
+        SetProps();
+        DividePageTableCathalog(rowObjects)
+        if(rowObjects.length !== 0) {
+            //setCurrentPage("1")
+            setIsInitialize(true)
         }
     }
 
@@ -69,22 +69,24 @@ function TableCathalog(props) {
             ])
             setButtonsPage(["1", "2", "3", "...", "..."])
             setButtonsMaxPage(100)
-            setCurrentPage("1")
-            setNumberElementsOnPage(5)
+            //setCurrentPage("1")
+            setNumberElementsOnPage(20)
             setTest(false)
         }
     }
 
     function DividePageTableCathalog(rowObjects) {
-        let maxPage = Math.floor(rowObjects.length / numberElementsOnPage)+1
-        if(rowObjects.length % numberElementsOnPage === 0) {
+        //let maxPage = Math.floor(rowObjects.length / numberElementsOnPage)+1
+        /*if(rowObjects.length % numberElementsOnPage === 0) {
             maxPage--;
-        }
-        setButtonsMaxPage(maxPage)
-        if(currentPage > maxPage) {
-            setCurrentPage("1")
-        }
-        RecalculateButtonsPageTableCathalog(currentPage, maxPage)
+        }*/
+        //setButtonsMaxPage(maxPage)
+        setButtonsMaxPage(props.buttonsMaxPage)
+        /*if(currentPage > maxPage) {
+            setCurrentPage(props.currentPage)
+        }*/
+        setCurrentPage(props.currentPage)
+        RecalculateButtonsPageTableCathalog(props.currentPage, props.buttonsMaxPage)
     }
 
     function RecalculateButtonsPageTableCathalog(page, buttonsMaxPage) {
@@ -172,170 +174,190 @@ function TableCathalog(props) {
     }
 
     function AddColumns(columns) {
-        return columns.map((value, index) => {
+        if(isInitialize) {
+            return columns.map((value, index) => {
+                return (
+                    <th>
+                        {value}
+                    </th>
+                )
+            })
+        } else {
             return (
-                <th>
-                    {value}
-                </th>
+                <></>
             )
-        })
+        }
+
     }
 
     function AddRowsObjects(rowObjects) {
-        return rowObjects.map((value, index) => {
-            if(Math.floor(index / numberElementsOnPage) === Number(currentPage) - 1) {
+        if(isInitialize) {
+            return rowObjects.map((value, index) => {
                 return (
                     <tr>
-                        <td>
-                            {value.street}
-                        </td>
-                        {TdDivideTextFromMass(value.houseNumber)}
-                        <td>
-                            {value.houseFractionNumber}
-                        </td>
-                        <td>
-                            {value.housing}
-                        </td>
-                        <td>
-                            {value.character}
-                        </td>
-                        <td>
-                            {value.district}
-                        </td>
-                        <td>
-                            {SumRoomsCount(value.commune)}
-                        </td>
-                        <td>
-                            {SumCount(value.commune)}
-                        </td>
-                        <td>
-                            {SumRoomsCount(value.flat)}
-                        </td>
-                        <td>
-                            {SumCount(value.flat)}
-                        </td>
-                        <td>
-                            {value.series}
-                        </td>
-                        <td>
-                            {value.yearBuild}
-                        </td>
-                        <td>
-                            {value.yearReconstruct}
-                        </td>
-                        <td>
-                            {value.areaHouse}
-                        </td>
-                        <td>
-                            {value.areaLiving}
-                        </td>
-                        <td>
-                            {value.areaFunctional}
-                        </td>
-                        <td>
-                            {value.countLadder}
-                        </td>
-                        <td>
-                            {value.countFloor}
-                        </td>
-                        <td>
-                            {value.countLiving}
-                        </td>
-                        <td>
-                            {value.areaAttic}
-                        </td>
-                        {TdBool(value.hasCentralHeating)}
-                        {TdBool(value.hasAutonomousBoiler)}
-                        {TdBool(value.hasFurnanceHeating)}
-                        {TdBool(value.hasCentralHotWater)}
-                        {TdBool(value.hasCentralHotWaterGas)}
-                        {TdBool(value.hasCentralHotWaterWood)}
-                        {TdBool(value.hasCentralElectricity)}
-                        {TdBool(value.hasCentralGas)}
-                        {TdBool(value.hasChute)}
-                        <td>
-                            {value.functionalCount}
-                        </td>
-                        <td>
-                            {value.yearLiftBuild}
-                        </td>
-                        <td>
-                            {value.yearLiftReconstruct}
-                        </td>
-                        <td>
-                            {value.yearLiftUpgrade}
-                        </td>
-                        <td>
-                            {value.areaCleaning}
-                        </td>
-                        <td>
-                            {value.tapDate}
-                        </td>
-                        <td>
-                            {value.mcName}
-                        </td>
-                        {TdBool(value.hasAccident)}
-                        <td>
-                            {value.capitalRepairDates}
-                        </td>
-                        {TdDivideTextFromMass(value.workTypes)}
-                        <td>
-                            {value.countChute}
-                        </td>
-                        <td>
-                            {value.areaMetalRoof}
-                        </td>
-                        <td>
-                            {value.countLift}
-                        </td>
-                        <td>
-                            {value.countIntercom}
-                        </td>
-                        <td>
-                            {value.areaBasement}
-                        </td>
-                    </tr>
+                            <td>
+                                {value.street}
+                            </td>
+                            {TdDivideTextFromMass(value.houseNumber)}
+                            <td>
+                                {value.houseFractionNumber}
+                            </td>
+                            <td>
+                                {value.housing}
+                            </td>
+                            <td>
+                                {value.character}
+                            </td>
+                            <td>
+                                {value.district}
+                            </td>
+                            <td>
+                                {SumRoomsCount(value.commune)}
+                            </td>
+                            <td>
+                                {SumCount(value.commune)}
+                            </td>
+                            <td>
+                                {SumRoomsCount(value.flat)}
+                            </td>
+                            <td>
+                                {SumCount(value.flat)}
+                            </td>
+                            <td>
+                                {value.series}
+                            </td>
+                            <td>
+                                {value.yearBuild}
+                            </td>
+                            <td>
+                                {value.yearReconstruct}
+                            </td>
+                            <td>
+                                {value.areaHouse}
+                            </td>
+                            <td>
+                                {value.areaLiving}
+                            </td>
+                            <td>
+                                {value.areaFunctional}
+                            </td>
+                            <td>
+                                {value.countLadder}
+                            </td>
+                            <td>
+                                {value.countFloor}
+                            </td>
+                            <td>
+                                {value.countLiving}
+                            </td>
+                            <td>
+                                {value.areaAttic}
+                            </td>
+                            {TdBool(value.hasCentralHeating)}
+                            {TdBool(value.hasAutonomousBoiler)}
+                            {TdBool(value.hasFurnanceHeating)}
+                            {TdBool(value.hasCentralHotWater)}
+                            {TdBool(value.hasCentralHotWaterGas)}
+                            {TdBool(value.hasCentralHotWaterWood)}
+                            {TdBool(value.hasCentralElectricity)}
+                            {TdBool(value.hasCentralGas)}
+                            {TdBool(value.hasChute)}
+                            <td>
+                                {value.functionalCount}
+                            </td>
+                            <td>
+                                {value.yearLiftBuild}
+                            </td>
+                            <td>
+                                {value.yearLiftReconstruct}
+                            </td>
+                            <td>
+                                {value.yearLiftUpgrade}
+                            </td>
+                            <td>
+                                {value.areaCleaning}
+                            </td>
+                            <td>
+                                {value.tapDate}
+                            </td>
+                            <td>
+                                {value.mcName}
+                            </td>
+                            {TdBool(value.hasAccident)}
+                            <td>
+                                {value.capitalRepairDates}
+                            </td>
+                            {TdDivideTextFromMass(value.workTypes)}
+                            <td>
+                                {value.countChute}
+                            </td>
+                            <td>
+                                {value.areaMetalRoof}
+                            </td>
+                            <td>
+                                {value.countLift}
+                            </td>
+                            <td>
+                                {value.countIntercom}
+                            </td>
+                            <td>
+                                {value.areaBasement}
+                            </td>
+                        </tr>
                 )
-            } else {
-                return (
-                    <div/>
-                )
-            }
-        })
+            })
+        } else {
+            return (
+                <></>
+            )
+        }
+
     }
 
     function AddButtonsPage(buttonsPage, currentPage) {
-        return buttonsPage.map((value, index) => {
-            if(currentPage === value) {
-                return (
-                    <ButtonPageTableCatalog number={value} clicked={true}/>
-                )
-            }
-            else {
-                return (
-                    <ButtonPageTableCatalog number={value} clicked={false} Handler={()=>{
-                        if(value === "...") {
-                            let nextPage = String(Number(currentPage)+2)
-                            RecalculateButtonsPageTableCathalog(nextPage, buttonsMaxPage)
-                            setCurrentPage(nextPage)
+        if(isInitialize) {
+            return buttonsPage.map((value, index) => {
+                if(currentPage === value) {
+                    return (
+                        <ButtonPageTableCatalog number={value} clicked={true}/>
+                    )
+                }
+                else {
+                    return (
+                        <ButtonPageTableCatalog number={value} clicked={false} Handler={()=>{
+                            if(value === "...") {
+                                let nextPage = String(Number(currentPage)+2)
+                                //RecalculateButtonsPageTableCathalog(nextPage, buttonsMaxPage)
+                                //setCurrentPage(nextPage)
+                                props.Handler(nextPage)
 
-                        } else {
-                            RecalculateButtonsPageTableCathalog(value, buttonsMaxPage)
-                            setCurrentPage(value)
-                        }
-                    }}/>
-                )
-            }
-        })
+                            } else {
+                                //RecalculateButtonsPageTableCathalog(value, buttonsMaxPage)
+                                //setCurrentPage(value)
+                                props.Handler(value)
+                            }
+                        }}/>
+                    )
+                }
+            })
+        } else {
+            return (
+                <></>
+            )
+        }
     }
 
     return (
         <div>
             <table className="table-1">
-                <tr>
-                    {AddColumns(columns)}
-                </tr>
-                {AddRowsObjects(rowObjects)}
+                <thead>
+                    <tr>
+                        {AddColumns(columns)}
+                    </tr>
+                </thead>
+                <tbody>
+                    {AddRowsObjects(rowObjects)}
+                </tbody>
             </table>
             <div className="panel-pages">
                 {AddButtonsPage(buttonsPage, currentPage)}
@@ -351,7 +373,8 @@ TableCathalog.propTypes = {
     buttonsPage:PropTypes.array,
     buttonsMaxPage: PropTypes.number,
     currentPage: PropTypes.string,
-    numberElementsOnPage: PropTypes.number
+    numberElementsOnPage: PropTypes.number,
+    Handler: PropTypes.func
 }
 
 export default TableCathalog;
