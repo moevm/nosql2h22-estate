@@ -14,19 +14,45 @@ import HouseProfile from "./components/pages/HouseProfile";
 function App() {
   
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isAuthorized'))
-  const [token, setToken] = useState('')
-
+/*
+  const updateIsAuthorized = (val) => {
+    setIsLoggedIn(val)
+  }
+*/  
+/*
+  const updateToken = (val) => {
+    console.log('val = ', val)
+    setToken(val)
+  }
+*/
+/*
   const logOut = () => {
     localStorage.setItem('isAuthorized', false)
-    setIsLoggedIn(false)
+    setIsLoggedIn('false')
+    setToken('')
   }
-
+*/
   const adminProfileRoute = () => {
     if(isLoggedIn === 'true'){
       return <Route path="/adminProfile" element={<AdminProfile/>}/>
     }else{
       return <></>
     }
+  }
+/*
+  const updateToken = (val) => {
+    console.log('val = ', val)
+    setToken(val)
+  }
+
+  const updateAuthorization = (val) => {
+    setIsLoggedIn(val)
+  }
+*/
+  const logOut = () => {
+    localStorage.setItem('isAuthorized', false)
+    localStorage.removeItem('token')
+    setIsLoggedIn('false')
   }
 
   return (
@@ -40,7 +66,7 @@ function App() {
           <Route path="/testHouseProfile" element={<HouseProfile/>}/>
           <Route path='/map/:id' element={<HouseProfile/>}/>
         </Route> 
-        <Route path="/auth" element={<Authorization setIsAuthorized={setIsLoggedIn} setToken={setToken} isAuthorized={isLoggedIn}/>}/>
+        <Route path="/auth" element={<Authorization setIsAuthorized={(v) => setIsLoggedIn(v)} isAuthorized={isLoggedIn}/>}/>
       </Routes>
     </div>
   );

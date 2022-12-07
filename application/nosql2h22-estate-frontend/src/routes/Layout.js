@@ -13,6 +13,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 const Layout = (props) => {
+
   return (
     <Container fluid>
       <div className="container-content">

@@ -19,17 +19,29 @@ import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 import './../../styles/Sidebar.css'
 
 
-function importDS() {
-  console.log('import')
+function importDS(e) {
+
+  let token = localStorage.getItem('token')
+  console.log('import token = ', token)
+
+  if(token === null){
+    return;
+  }else{
+
+    const formData = new FormData()
+    formData.append('db', e.target.files[0])
+    formData.append('token', token)
+
+    fetch('http://127.0.0.1:1337/houses/csv', {
+      method: 'POST',
+      body: formData
+    })
+      .then(res => console.log(res))
+  }    
 }
 
 function exportDS() {
   console.log('export')
-}
-
-function exit(e) {
-  console.log('exit')
-  e()
 }
 
 function SidebarItem(text, link, icon) {
@@ -62,6 +74,11 @@ function SidebarItem(text, link, icon) {
 }
 
 const Sidebar = (props) => {
+
+  const exit = (e) => {
+    console.log('exit')
+    e()
+  }
 
   const SidebarExitButton = () => {
     if (props.isAuthorized === 'true'){
@@ -104,10 +121,13 @@ const Sidebar = (props) => {
       <div className="div-line"></div>
 
       <div className="button-item">
-        <button className="button" onClick={importDS}>
-          <FontAwesomeIcon icon={faUpload} />{' '}
-          Импорт НД
-        </button>     
+        <button className="button">
+          <label htmlFor='import-ds-input' className="import-label">
+            <FontAwesomeIcon icon={faUpload} />{' '}
+            Импорт НД
+          </label>
+          <input type="file" id="import-ds-input" className="import-input" onChange={(e)=>importDS(e, props.token)}/>
+        </button>
       </div>
 
       <div className="button-item">
