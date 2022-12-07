@@ -41,7 +41,6 @@ function MapComponent(){
   }
 
   function getMark(geometry){
-    console.log('geometry = ', geometry)
     return <Placemark geometry={geometry} options={{
         preset: 'islands#circleIcon',
         iconColor: 'green',
@@ -49,7 +48,6 @@ function MapComponent(){
     />
   }
 
-  console.log(coords)
   
   return(
       <div>

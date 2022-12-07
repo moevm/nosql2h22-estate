@@ -1,5 +1,6 @@
 //React
 import React from 'react'
+import PropTypes from 'prop-types'
 
 //Components
 import Navbar from './../../routes/Navbar/Navbar.js'
@@ -9,7 +10,7 @@ import MapComponent from './Map/MapComponent.js'
 import './../../styles/Map.css'
 
 
-const Map = () => {
+const Map = (props) => {
   
   return (
     <div>
@@ -20,5 +21,9 @@ const Map = () => {
   );
 
 };
+
+Map.propTypes = {
+  isAuthorized: PropTypes.string  
+}
 
 export default Map;

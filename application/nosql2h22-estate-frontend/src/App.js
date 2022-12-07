@@ -11,24 +11,36 @@ import {
 } from "react-router-dom";
 import HouseProfile from "./components/pages/HouseProfile";
 
-
 function App() {
   
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isAuthorized'))
   const [token, setToken] = useState('')
 
+  const logOut = () => {
+    localStorage.setItem('isAuthorized', false)
+    setIsLoggedIn(false)
+  }
+
+  const adminProfileRoute = () => {
+    if(isLoggedIn === 'true'){
+      return <Route path="/adminProfile" element={<AdminProfile/>}/>
+    }else{
+      return <></>
+    }
+  }
+
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Layout/>}>
-          <Route path="/" element={<Cathalog/>}/>
-          <Route path="/map" element={<Map/>}/>
-          <Route path="/stat" element={<Statistics/>}/>
-          <Route path="/testAdminProfile" element={<AdminProfile/>}/>
-          <Route path='/house_idtest/' element={<HouseProfile/>}/>
+        <Route path="/" element={<Layout handleAdminExit={logOut} isAuthorized={isLoggedIn}/>}>
+          <Route path="/" element={<Cathalog isAuthorized={isLoggedIn}/>}/>
+          <Route path="/map" element={<Map isAuthorized={isLoggedIn}/>}/>
+          <Route path="/stat" element={<Statistics isAuthorized={isLoggedIn}/>}/>
+          { adminProfileRoute() }
+          <Route path="/testHouseProfile" element={<HouseProfile/>}/>
           <Route path='/map/:id' element={<HouseProfile/>}/>
         </Route> 
-        <Route path="/authorization" element={<Authorization setIsAuthorized={setIsLoggedIn} setToken={setToken}/>}/>
+        <Route path="/auth" element={<Authorization setIsAuthorized={setIsLoggedIn} setToken={setToken} isAuthorized={isLoggedIn}/>}/>
       </Routes>
     </div>
   );

@@ -13,7 +13,7 @@ function DisplayAttribute(nameAttribute, valueAttribute) {
 }
 
 function AdminProfileComponent(props) {
-    let [name, setName] = useState("ADMIN")
+    let [name, setName] = useState("ADMIN RSOTM")
     let [role, setRole] = useState("Администратор")
 
     return (

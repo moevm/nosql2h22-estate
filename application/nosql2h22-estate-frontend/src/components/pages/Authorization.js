@@ -21,6 +21,12 @@ const Authorization = (props) => {
   const handleAuthorizationForm = (e) => {
     e.preventDefault();
 
+    if(props.isAuthorized === 'true'){
+      setAdminKey('')
+      localStorage.setItem('isAuthorized', true)
+      return;
+    }
+
     fetch('http://localhost:1337/auth/login', {
       method: 'POST',
       headers: {
@@ -30,7 +36,7 @@ const Authorization = (props) => {
     })
 	        .then(res => res.json())
 	        .then( (res) => {
-            if(!localStorage.getItem('isAuthorized')){
+            if(localStorage.getItem('isAuthorized') === null || localStorage.getItem('isAuthorized') === 'false'){
               if(res.status === "done"){
                 localStorage.setItem('isAuthorized', true)
                 props.setIsAuthorized(true)
@@ -40,9 +46,6 @@ const Authorization = (props) => {
               }else{
                 setErrorWithAuthorization(true)
               }
-            }else{
-              console.log('already authorized')
-              window.location.href = 'http://localhost:3000/'
             }
 	        });
     setAdminKey('')     
@@ -122,7 +125,8 @@ const Authorization = (props) => {
 
 Authorization.propTypes = {
   setIsAuthorized: PropTypes.func,
-  setToken: PropTypes.func
+  setToken: PropTypes.func,
+  isAuthorized: PropTypes.string
 }
 
 export default Authorization;

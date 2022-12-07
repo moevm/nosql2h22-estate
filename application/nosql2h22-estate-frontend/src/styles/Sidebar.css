@@ -122,3 +122,14 @@
   border-bottom: none;
   border-right: none;
 }
+
+.exit-button-item{
+  position: relative;
+  top: 424px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 182px;
+  height: 28px;
+  padding: 28px 8px 28px 8px;
+  background: #202123;
+}
