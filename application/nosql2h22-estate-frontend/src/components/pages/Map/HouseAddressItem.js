@@ -14,13 +14,40 @@ const HouseAddressItem = (props) => {
     props.handleItemClick('Санкт-Петербург, ' + value)
   }
 
+  function MakeAddress() {
+    let address = ''
+    if(props.street) {
+      address += props.street
+    }
+    address += ", "
+    if(props.houseNumber) {
+      address += props.houseNumber
+    }
+    if(props.houseFractionNumber) {
+      address += "/"
+      address += props.houseFractionNumber
+    }
+    address += ", "
+    if(props.character) {
+      address += props.character
+    }
+    address += ", "
+    if(props.district) {
+      address += props.district
+    }
+    address += ' район'
+
+    return address
+
+  }
+
   return (
     <div>
       <div className="house-address-item">
-        <div onClick={() => onClick(props.address)}>
+        <div onClick={() => onClick(MakeAddress())}>
           <div className={"house-address-text-offset"}>
             <span className="house-address-text">
-              {props.address}
+              {MakeAddress()}
             </span>
           </div>
         </div>
@@ -34,8 +61,12 @@ const HouseAddressItem = (props) => {
 
 HouseAddressItem.propTypes = {
   id: PropTypes.string,
-  address: PropTypes.string,
-  handleItemClick: PropTypes.func
+  handleItemClick: PropTypes.func,
+  street: PropTypes.string,
+  houseNumber: PropTypes.string,
+  houseFractionNumber: PropTypes.string,
+  character: PropTypes.string,
+  district: PropTypes.string
 }
 
 export default HouseAddressItem;

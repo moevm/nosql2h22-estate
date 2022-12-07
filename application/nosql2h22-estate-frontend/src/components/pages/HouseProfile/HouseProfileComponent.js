@@ -50,12 +50,12 @@ function HouseProfileComponent(props) {
         url.searchParams.append("apikey", "368ea89a-29e6-4b8a-881f-b59a7bab8369")
         url.searchParams.append("geocode", currentAddress)
         url.searchParams.append("format", "json")
-        /*fetch(url)
+        fetch(url)
             .then(res => res.json())
             .then( (res) => {
                 let coordArr = res.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")
                 setCoords({coordinates: [parseFloat(coordArr[1]), parseFloat(coordArr[0])]})
-            })*/
+            })
     }
 
     const getObjectById = () => {
@@ -98,13 +98,43 @@ function HouseProfileComponent(props) {
         return engField
     }
 
+    function DivideTextFromMass(mass) {
+        const n = mass.length;
+
+        let result = '';
+        for(let i = 0; i < n-1; i++) {
+            result += `${mass[i]}, `;
+        }
+        result += `${mass[n-1]}`;
+
+        return result
+    }
+
+    function SumRoomsCount(mass) {
+        let count = 0
+        mass.map((value, index) => {
+            count += value.roomsCount
+        })
+        return count
+    }
+
+    function SumCount(mass) {
+        let count = 0
+        mass.map((value, index) => {
+            count += value.count
+        })
+        return count
+    }
+
+
+
     function DisplayAttribute(nameAttribute, valueAttribute) {
-        return (
-            <div className={"fieldAttributeHouse"}>
-                <p className={"paragraph-250"}>{nameAttribute}</p>
-                <div className={"rectangle-280"}>{valueAttribute}</div>
-            </div>
-        )
+            return (
+                <div className={"fieldAttributeHouse"}>
+                    <p className={"paragraph-250"}>{nameAttribute}</p>
+                    <div className={"rectangle-280"}>{valueAttribute.toString()}</div>
+                </div>
+            )
     }
 
     function DisplayAttributes() {

@@ -21,27 +21,74 @@ const HouseAddressList = (props) => {
   ]
 
   const [addresses, setAdresses] = useState({data: [], page: 0})
+  const [filter, setFilter] = useState({})
 
   const getNewAddresses = () => {
-    let url = new URL('http://127.0.0.1:1337/houses')
-    url.searchParams.append("page", addresses["page"])
-    fetch(url)
-	        .then(res => res.json())
-	        .then( ( res ) => {
-              let arr = [...addresses.data, ...res.message]
-              setAdresses({
-                data: arr,
-                page: addresses.page + 1
-              });
-	        });
+
+    if(Object.keys(filter).length === 0) {
+        let url = new URL('http://127.0.0.1:1337/houses')
+        url.searchParams.append("page", addresses["page"])
+        fetch(url)
+            .then(res => res.json())
+            .then( ( res ) => {
+                let arr = [...addresses.data, ...res.message]
+                setAdresses({
+                    data: arr,
+                    page: addresses.page + 1
+                });
+            });
+    } else {
+        let url = new URL('http://127.0.0.1:1337/houses/filter')
+        url.searchParams.append("page", addresses["page"])
+        for (let k in filter) {
+            url.searchParams.append(k, filter[k]);
+        }
+        fetch(url)
+            .then(res => res.json())
+            .then( ( res ) => {
+                alert(JSON.stringify(res.message))
+                let arr = [...addresses.data, ...res.message]
+                setAdresses({
+                    data: res.message,
+                    page: addresses.page + 1
+                });
+            });
+    }
+
   };
+
+  useEffect(()=>{
+      getNewAddresses()
+  }, [filter])
 
   useEffect(() => {
     getNewAddresses();
   }, []);
 
   function Handler(value) {
+      setFilter(value)
+  }
 
+  function DisplayAddresses(addresses) {
+      return (
+          <>
+              <div className="house-address-items-container">
+                  {
+                      addresses.data.map((item) => {
+                          return <HouseAddressItem
+                              id={item._id}
+                              street={item.street}
+                              houseNumber={item.houseNumber}
+                              houseFractionNumber={item.houseFractionNumber}
+                              character={item.character}
+                              district={item.district}
+                              handleItemClick={props.handleItemClick}
+                          />;
+                      })
+                  }
+              </div>
+          </>
+      )
   }
 
   return (
@@ -49,17 +96,7 @@ const HouseAddressList = (props) => {
       <div className="map-filter-panel">
         <ButtonFilter columns={col_names} columnsEng={col_names_eng} Handler={Handler}/>
       </div>
-      <div className="house-address-items-container">
-        {
-          addresses.data.map((item) => {
-            return <HouseAddressItem 
-              id={item._id}
-              address={item.street + ', ' + item.houseNumber[0] + '/' + item.houseFractionNumber + ', ' + item.character + ', ' + item.district + ' район'} 
-              handleItemClick={props.handleItemClick}
-              />;
-          })
-        }
-      </div>
+        {DisplayAddresses(addresses)}
     </div>
   )
 }

@@ -24,15 +24,42 @@ function StatisticsComponent(props){
 
 
     function InitializeObjects() {
+        /*
         if(Object.keys(filter).length === 0) {
+            console.log('no has filter')
             fetch('http://localhost:1337/stats/area/')
                 .then(res => res.json())
                 .then( (res) => {
-                    //alert(JSON.stringify(res.message))
+                    setObjectsArea(res.message)
+                });
+            fetch('http://localhost:1337/stats/flats/')
+                .then(res => res.json())
+                .then( (res) => {
+                    setObjectsFlats(res.message)
+                });
+            fetch('http://localhost:1337/stats/residents/')
+                .then(res => res.json())
+                .then( (res) => {
+                    setObjectsResidents(res.message)
                 });
         } else {
             console.log('has filter')
-        }
+            fetch('http://localhost:1337/stats/area/filter')
+                .then(res => res.json())
+                .then( (res) => {
+                    setObjectsArea(res.message)
+                });
+            fetch('http://localhost:1337/stats/flats/filter')
+                .then(res => res.json())
+                .then( (res) => {
+                    setObjectsFlats(res.message)
+                });
+            fetch('http://localhost:1337/stats/residents/filter')
+                .then(res => res.json())
+                .then( (res) => {
+                    setObjectsResidents(res.message)
+                });
+        }*/
     }
 
     useEffect(() => {
@@ -59,20 +86,169 @@ function StatisticsComponent(props){
         return(
             [
                 {
-                    district: "123",
+                    district: "Кировский",
                     value: 50
                 },
                 {
-                    district: "234",
+                    district: "Калининский",
                     value: 70
                 },
                 {
-                    district: "345",
-                    value: 60
+                    district: "Петроградский",
+                    value: 67
                 },
                 {
-                    district: "456",
+                    district: "Колпинский",
+                    value: 96
+                },
+                {
+                    district: "Московский",
+                    value: 67
+                },
+                {
+                    district: "Адмиралтейский",
+                    value: 63
+                },
+                {
+                    district: "Центральный",
+                    value: 27
+                },
+                {
+                    district: "Фрунзенский",
                     value: 40
+                },
+                {
+                    district: "Кронштадтский",
+                    value: 79
+                }
+            ]
+        )
+    }
+
+    function TestSetObjects2() {
+        return(
+            [
+                {
+                    district: "Кировский",
+                    value: 70
+                },
+                {
+                    district: "Калининский",
+                    value: 87
+                },
+                {
+                    district: "Петроградский",
+                    value: 34
+                },
+                {
+                    district: "Колпинский",
+                    value: 20
+                },
+                {
+                    district: "Московский",
+                    value: 67
+                },
+                {
+                    district: "Адмиралтейский",
+                    value: 34
+                },
+                {
+                    district: "Центральный",
+                    value: 100
+                },
+                {
+                    district: "Фрунзенский",
+                    value: 34
+                },
+                {
+                    district: "Кронштадтский",
+                    value: 12
+                }
+            ]
+        )
+    }
+
+    function TestSetObjects3() {
+        return(
+            [
+                {
+                    district: "Кировский",
+                    value: 87
+                },
+                {
+                    district: "Калининский",
+                    value: 56
+                },
+                {
+                    district: "Петроградский",
+                    value: 25
+                },
+                {
+                    district: "Колпинский",
+                    value: 53
+                },
+                {
+                    district: "Московский",
+                    value: 13
+                },
+                {
+                    district: "Адмиралтейский",
+                    value: 24
+                },
+                {
+                    district: "Центральный",
+                    value: 34
+                },
+                {
+                    district: "Фрунзенский",
+                    value: 45
+                },
+                {
+                    district: "Кронштадтский",
+                    value: 87
+                }
+            ]
+        )
+    }
+
+    function TestSetObjects4() {
+        return(
+            [
+                {
+                    district: "Кировский",
+                    value: 34000
+                },
+                {
+                    district: "Калининский",
+                    value: 560000
+                },
+                {
+                    district: "Петроградский",
+                    value: 23000
+                },
+                {
+                    district: "Колпинский",
+                    value: 680000
+                },
+                {
+                    district: "Московский",
+                    value: 42000
+                },
+                {
+                    district: "Адмиралтейский",
+                    value: 560000
+                },
+                {
+                    district: "Центральный",
+                    value: 24000
+                },
+                {
+                    district: "Фрунзенский",
+                    value: 13000
+                },
+                {
+                    district: "Кронштадтский",
+                    value: 56000
                 }
             ]
         )
@@ -83,9 +259,9 @@ function StatisticsComponent(props){
             setColumns(col_names)
             setColumnsEng(col_names_eng)
             setObjectsArea(TestSetObjects()) //TEST
-            setObjectsFlats(TestSetObjects()) //TEST
-            setObjectsNonResidentsArea(TestSetObjects()) //TEST
-            setObjectsResidents(TestSetObjects()) //TEST
+            setObjectsFlats(TestSetObjects2()) //TEST
+            setObjectsNonResidentsArea(TestSetObjects3()) //TEST
+            setObjectsResidents(TestSetObjects4()) //TEST
             setTest(false)
         }
     }
@@ -106,7 +282,7 @@ function StatisticsComponent(props){
                 <StatisticsBlock title={"Площадь всех зданий для каждого района, кв. м"} valueName={"Количество кв.м"} objects={objectsArea}/>
                 <StatisticsBlock title={"Количество квартир"} valueName={"Количество квартир"} objects={objectsFlats}/>
                 <StatisticsBlock title={"Площадь незанятых жилых помещений, кв. м"} valueName={"Количество кв.м"} objects={objectsNonResidentsArea}/>
-                <StatisticsBlock title={"Количество проживающих"} valueName={"Количество проживающих"} objects={objectsResidents}/>
+                <StatisticsBlock title={"Количество проживающих"} valueName={"Количество человек"} objects={objectsNonResidentsArea}/>
             </div>
         )
     }
@@ -114,7 +290,7 @@ function StatisticsComponent(props){
     return (
         <div>
             <div className={"ButtonFilterOffset"}>
-                <ButtonFilter columns={columns} Handler={HandlerFilter} columnsEng={columnsEng}/>
+                <ButtonFilter columns={col_names} columnsEng={col_names_eng} Handler={Handler}/>
             </div>
             {DisplayStatisticsBlocks()}
         </div>

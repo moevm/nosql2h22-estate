@@ -15,7 +15,7 @@ const Map = (props) => {
   return (
     <div>
       <div className="map-component">
-        <MapComponent/>
+        <MapComponent isAuthorized={props.isAuthorized} token={props.token}/>
       </div>
     </div>
   );

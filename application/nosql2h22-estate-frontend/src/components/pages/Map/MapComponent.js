@@ -1,6 +1,7 @@
 //React
 import React, {useEffect, useState, useReducer} from 'react'
 
+
 //Components
 import HouseAddressList from './HouseAddressList';
 import { YMaps, Map, Placemark } from "react-yandex-maps";
@@ -8,8 +9,9 @@ import { YMaps, Map, Placemark } from "react-yandex-maps";
 //Styles
 import './../../../styles/Map/MapComponent.css'
 import Navbar from "../../../routes/Navbar/Navbar";
+import PropTypes from "prop-types";
 
-function MapComponent(){
+function MapComponent(props){
 
   const [currentAddress, setCurrentAddress] = useState('')
   const [coords, setCoords] = useState({coordinates: [59.942436, 30.342032]})
@@ -32,12 +34,12 @@ function MapComponent(){
 	  url.searchParams.append("apikey", "368ea89a-29e6-4b8a-881f-b59a7bab8369")
     url.searchParams.append("geocode", currentAddress)
     url.searchParams.append("format", "json")
-    /*fetch(url)
+    fetch(url)
         .then(res => res.json())
         .then( (res) => {
             let coordArr = res.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")
             setCoords({coordinates: [parseFloat(coordArr[1]), parseFloat(coordArr[0])]})
-        })*/
+        })
   }
 
   function getMark(geometry){
@@ -65,12 +67,19 @@ function MapComponent(){
           </div>
         </div>
         <div id="navbarMap" className="navbar">
-          <Navbar headerText={"Карта жилищного фонда"} descText={"Ниже представлена карта с информацией о жилых домах"}/>
+          <Navbar headerText={"Карта жилищного фонда"} descText={"Ниже представлена карта с информацией о жилых домах"} isAuthorized={props.isAuthorized}/>
         </div>
       </div>
 
 
   )
 }
+
+MapComponent.propTypes = {
+  isAuthorized: PropTypes.string,
+  token: PropTypes.string
+}
+
+
 
 export default MapComponent;
