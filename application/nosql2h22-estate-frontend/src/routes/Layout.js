@@ -13,13 +13,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 const Layout = (props) => {
+
   return (
     <Container fluid>
       <div className="container-content">
         <Row md={4}>
           <Col xs={3} md={2}>
             <div className="sidebar">
-              <Sidebar handleAdminExit={props.handleAdminExit} isAuthorized={props.isAuthorized}/>
+              <Sidebar handleAdminExit={props.handleAdminExit} isAuthorized={props.isAuthorized} token={props.token}/>
             </div>
           </Col>
           <Col xs={14} md={10}>
@@ -33,7 +34,8 @@ const Layout = (props) => {
 
 Layout.propTypes = {
   handleAdminExit: PropTypes.func,
-  isAuthorized: PropTypes.string
+  isAuthorized: PropTypes.string,
+  token: PropTypes.string
 }
 
 export default Layout;

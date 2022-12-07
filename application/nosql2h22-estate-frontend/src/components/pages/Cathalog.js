@@ -11,7 +11,7 @@ import './../../styles/Cathalog.css'
 import { propTypes } from 'react-bootstrap/esm/Image.js'
 
 const Cathalog = (props) => {
-  
+
   return (
     <div>
       <div className="navbar">
@@ -26,7 +26,8 @@ const Cathalog = (props) => {
 };
 
 Cathalog.propTypes = {
-  isAuthorized: PropTypes.string  
+  isAuthorized: PropTypes.string,
+  token: PropTypes.string
 }
 
 export default Cathalog;

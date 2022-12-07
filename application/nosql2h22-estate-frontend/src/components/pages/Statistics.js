@@ -25,7 +25,8 @@ const Statistics = (props) => {
 };
 
 Statistics.propTypes = {
-    isAuthorized: PropTypes.string  
+    isAuthorized: PropTypes.string,
+    token: PropTypes.string
 }
 
 export default Statistics;

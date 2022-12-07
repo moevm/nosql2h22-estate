@@ -12,7 +12,7 @@ import './../../styles/Authorization.css'
 const Authorization = (props) => {
   
   const [errorWithAuthorization, setErrorWithAuthorization] = useState(false)
-  const [adminKey, setAdminKey] = useState("")
+  const [adminKey, setAdminKey] = useState('')
 
   const handleKeyChange = (e) => {
     setAdminKey(e.target.value)
@@ -20,8 +20,10 @@ const Authorization = (props) => {
 
   const handleAuthorizationForm = (e) => {
     e.preventDefault();
+    //console.log('handleAuthorization')
 
     if(props.isAuthorized === 'true'){
+      //console.log('was authorized')
       setAdminKey('')
       localStorage.setItem('isAuthorized', true)
       return;
@@ -39,7 +41,7 @@ const Authorization = (props) => {
             if(localStorage.getItem('isAuthorized') === null || localStorage.getItem('isAuthorized') === 'false'){
               if(res.status === "done"){
                 localStorage.setItem('isAuthorized', true)
-                props.setIsAuthorized(true)
+                props.setIsAuthorized('true')
                 props.setToken(res.message)
                 setErrorWithAuthorization(false)
                 window.location.href = 'http://localhost:3000/'

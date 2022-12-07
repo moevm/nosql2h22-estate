@@ -123,6 +123,19 @@
   border-right: none;
 }
 
+.import-label{
+  color:#8c8c8d;
+  font-family: "Source Sans 3";
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.3;
+	text-align: left;
+}
+
+.import-input{
+  display: none;
+}
+
 .exit-button-item{
   position: relative;
   top: 424px;
