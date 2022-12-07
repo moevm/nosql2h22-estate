@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 //components
 
@@ -13,6 +13,7 @@ const Authorization = (props) => {
   
   const [errorWithAuthorization, setErrorWithAuthorization] = useState(false)
   const [adminKey, setAdminKey] = useState('')
+  const [success, setSuccess] = useState(false)
 
   const handleKeyChange = (e) => {
     setAdminKey(e.target.value)
@@ -20,10 +21,8 @@ const Authorization = (props) => {
 
   const handleAuthorizationForm = (e) => {
     e.preventDefault();
-    //console.log('handleAuthorization')
 
     if(props.isAuthorized === 'true'){
-      //console.log('was authorized')
       setAdminKey('')
       localStorage.setItem('isAuthorized', true)
       return;
@@ -41,10 +40,10 @@ const Authorization = (props) => {
             if(localStorage.getItem('isAuthorized') === null || localStorage.getItem('isAuthorized') === 'false'){
               if(res.status === "done"){
                 localStorage.setItem('isAuthorized', true)
+                localStorage.setItem('token', res.message)
                 props.setIsAuthorized('true')
-                props.setToken(res.message)
+                setSuccess(true)
                 setErrorWithAuthorization(false)
-                window.location.href = 'http://localhost:3000/'
               }else{
                 setErrorWithAuthorization(true)
               }
@@ -52,6 +51,12 @@ const Authorization = (props) => {
 	        });
     setAdminKey('')     
   }
+
+  useEffect(()=>{
+    if(success){
+      window.location.href = 'http://localhost:3000/'
+    }
+  }, [success])
 
   function formBody() {
     if (errorWithAuthorization){
@@ -127,7 +132,6 @@ const Authorization = (props) => {
 
 Authorization.propTypes = {
   setIsAuthorized: PropTypes.func,
-  setToken: PropTypes.func,
   isAuthorized: PropTypes.string
 }
 

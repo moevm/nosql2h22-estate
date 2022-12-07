@@ -20,7 +20,7 @@ const Layout = (props) => {
         <Row md={4}>
           <Col xs={3} md={2}>
             <div className="sidebar">
-              <Sidebar handleAdminExit={props.handleAdminExit} isAuthorized={props.isAuthorized} token={props.token}/>
+              <Sidebar handleAdminExit={props.handleAdminExit} isAuthorized={props.isAuthorized}/>
             </div>
           </Col>
           <Col xs={14} md={10}>
@@ -34,8 +34,7 @@ const Layout = (props) => {
 
 Layout.propTypes = {
   handleAdminExit: PropTypes.func,
-  isAuthorized: PropTypes.string,
-  token: PropTypes.string
+  isAuthorized: PropTypes.string
 }
 
 export default Layout;

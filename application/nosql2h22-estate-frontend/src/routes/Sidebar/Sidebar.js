@@ -19,28 +19,29 @@ import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 import './../../styles/Sidebar.css'
 
 
-function importDS(e, token) {
-  console.log(e.target.files[0])
-  console.log(token)
+function importDS(e) {
 
-  const formData = new FormData()
-  formData.append('db', e.target.files[0])
-  formData.append('token', '184ec27b73054f8f11edb5c7')
+  let token = localStorage.getItem('token')
+  console.log('import token = ', token)
 
-  fetch('http://127.0.0.1:1337/houses/csv', {
-    method: 'POST',
-    body: formData
-  })
+  if(token === null){
+    return;
+  }else{
+
+    const formData = new FormData()
+    formData.append('db', e.target.files[0])
+    formData.append('token', token)
+
+    fetch('http://127.0.0.1:1337/houses/csv', {
+      method: 'POST',
+      body: formData
+    })
       .then(res => console.log(res))
+  }    
 }
 
 function exportDS() {
   console.log('export')
-}
-
-function exit(e) {
-  console.log('exit')
-  e()
 }
 
 function SidebarItem(text, link, icon) {
@@ -74,8 +75,10 @@ function SidebarItem(text, link, icon) {
 
 const Sidebar = (props) => {
 
-  //console.log('sidebar token = ', props.token)
-  //console.log('sidebar isauthorized = ', props.isAuthorized)
+  const exit = (e) => {
+    console.log('exit')
+    e()
+  }
 
   const SidebarExitButton = () => {
     if (props.isAuthorized === 'true'){
@@ -143,8 +146,7 @@ const Sidebar = (props) => {
 
 Sidebar.propTypes = {
   handleAdminExit: PropTypes.func,
-  isAuthorized: PropTypes.string,
-  token: PropTypes.string
+  isAuthorized: PropTypes.string
 }
 
 export default Sidebar;
