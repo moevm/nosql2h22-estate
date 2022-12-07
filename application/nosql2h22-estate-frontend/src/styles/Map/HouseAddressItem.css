@@ -1,17 +1,21 @@
 .house-address-item{
   height: 60px;
-  width: 460px;
+  width: 365px;
   display: flex;
+  cursor: pointer;
 }
 
 .house-address-item:hover{
   background-color: #f7f6f6;
 }
 
+.house-address-text-offset {
+  margin-left: 15px;
+}
+
 .house-address-text{
   font-size: 18px;
-  color: #202123;
+  color: #8c8c8d;
   font-family: "Source Sans 3";
   font-weight: 300;
-  line-height: 60px;
 }

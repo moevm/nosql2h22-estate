@@ -13,9 +13,6 @@ const Map = () => {
   
   return (
     <div>
-      <div className="navbar">
-        <Navbar headerText={"Карта жилищного фонда"} descText={"Ниже представлена карта с информацией о жилых домах"}/>
-      </div>
       <div className="map-component">
         <MapComponent/>
       </div>

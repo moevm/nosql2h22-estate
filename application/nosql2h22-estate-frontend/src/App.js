@@ -25,7 +25,8 @@ function App() {
           <Route path="/map" element={<Map/>}/>
           <Route path="/stat" element={<Statistics/>}/>
           <Route path="/testAdminProfile" element={<AdminProfile/>}/>
-          <Route path="/testHouseProfile" element={<HouseProfile/>}/>
+          <Route path='/house_idtest/' element={<HouseProfile/>}/>
+          <Route path='/map/:id' element={<HouseProfile/>}/>
         </Route> 
         <Route path="/authorization" element={<Authorization setIsAuthorized={setIsLoggedIn} setToken={setToken}/>}/>
       </Routes>
