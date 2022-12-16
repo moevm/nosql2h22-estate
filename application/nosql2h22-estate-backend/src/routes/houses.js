@@ -22,12 +22,12 @@ export const housesRoutes = express.Router();
 
 housesRoutes.get("/count", async (req, res) => {
   getDb()
-  .collection("houses")
-  .find()
-  .count()
-  .then(count => respondSuccess(res, count))
-  .catch(err => respondError(res, err));
-})
+    .collection("houses")
+    .find()
+    .count()
+    .then((count) => respondSuccess(res, count))
+    .catch((err) => respondError(res, err));
+});
 
 housesRoutes.get("/download", async (req, res) => {
   getDb()
@@ -35,10 +35,10 @@ housesRoutes.get("/download", async (req, res) => {
     .find({}, { _id: 0 })
     .sort({ _id: 1 })
     .toArray()
-    .then(houses => Buffer.from(JSON.stringify(houses)))
-    .then(db => fsPromises.writeFile('/tmp/db.json', db))
-    .then(() => res.download('/tmp/db.json'))
-    .catch(err => respondError(res, err));
+    .then((houses) => Buffer.from(JSON.stringify(houses)))
+    .then((db) => fsPromises.writeFile("/tmp/db.json", db))
+    .then(() => res.download("/tmp/db.json"))
+    .catch((err) => respondError(res, err));
 });
 
 housesRoutes.get("/filter", async (req, res) => {
@@ -53,7 +53,7 @@ housesRoutes.get("/filter", async (req, res) => {
     return filter;
   }, []);
 
-  logger.info('page: ', page);
+  logger.info("page: ", page);
   logger.info("filter: ", filter);
 
   try {
@@ -64,12 +64,12 @@ housesRoutes.get("/filter", async (req, res) => {
     const houses = await dbConnection
       .collection("houses")
       .find({ $where: filter.join("&&") })
-      .sort({ _id: 1})
+      .sort({ _id: 1 })
       .skip((page - 1) * housesPerPage)
       .limit(housesPerPage)
       .toArray();
 
-    respondSuccess(res, {count, houses});
+    respondSuccess(res, { count, houses });
   } catch (err) {
     respondError(res, err);
   }

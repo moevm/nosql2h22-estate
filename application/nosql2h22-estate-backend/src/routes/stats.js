@@ -11,8 +11,8 @@ statsRoutes.get("/districts", async (req, res) => {
   getDb()
     .collection("houses")
     .distinct("district")
-    .then(districts => respondSuccess(res, districts))
-    .catch(err => respondError(res, err));
+    .then((districts) => respondSuccess(res, districts))
+    .catch((err) => respondError(res, err));
 });
 
 statsRoutes.get("/area", async (req, res) => {
