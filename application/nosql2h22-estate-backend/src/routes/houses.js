@@ -20,6 +20,15 @@ import { logger } from "../logger.js";
 
 export const housesRoutes = express.Router();
 
+housesRoutes.get("/count", async (req, res) => {
+  getDb()
+  .collection("houses")
+  .find()
+  .count()
+  .then(count => respondSuccess(res, count))
+  .catch(err => respondError(res, err));
+})
+
 housesRoutes.get("/download", async (req, res) => {
   getDb()
     .collection("houses")
