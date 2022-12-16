@@ -1,6 +1,7 @@
 import express from "express";
 import _ from "lodash";
 import { ObjectId } from "mongodb";
+import fsPromises from "fs/promises";
 
 import {
   respondSuccess,
@@ -18,6 +19,18 @@ import { isValid } from "../validation.js";
 import { logger } from "../logger.js";
 
 export const housesRoutes = express.Router();
+
+housesRoutes.get("/download", async (req, res) => {
+  getDb()
+    .collection("houses")
+    .find({}, { _id: 0 })
+    .sort({ _id: 1 })
+    .toArray()
+    .then(houses => Buffer.from(JSON.stringify(houses)))
+    .then(db => fsPromises.writeFile('/tmp/db.json', db))
+    .then(() => res.download('/tmp/db.json'))
+    .catch(err => respondError(res, err));
+});
 
 housesRoutes.get("/filter", async (req, res) => {
   const dbConnection = getDb();
