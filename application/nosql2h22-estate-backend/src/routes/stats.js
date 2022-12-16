@@ -7,6 +7,14 @@ import { respondSuccess, respondError } from "../utils.js";
 
 export const statsRoutes = express.Router();
 
+statsRoutes.get("/districts", async (req, res) => {
+  getDb()
+    .collection("houses")
+    .distinct("district")
+    .then(districts => respondSuccess(res, districts))
+    .catch(err => respondError(res, err));
+});
+
 statsRoutes.get("/area", async (req, res) => {
   const district = req.query.district;
   const dbConnection = getDb();
