@@ -56,15 +56,23 @@ housesRoutes.get("/filter", async (req, res) => {
   logger.info('page: ', page);
   logger.info("filter: ", filter);
 
-  dbConnection
-    .collection("houses")
-    .find({ $where: filter.join("&&") })
-    .sort({ _id: 1})
-    .skip((page - 1) * housesPerPage)
-    .limit(housesPerPage)
-    .toArray()
-    .then((houses) => respondSuccess(res, houses))
-    .catch((err) => respondError(res, err));
+  try {
+    const count = await dbConnection
+      .collection("houses")
+      .find({ $where: filter.join("&&") })
+      .count();
+    const houses = await dbConnection
+      .collection("houses")
+      .find({ $where: filter.join("&&") })
+      .sort({ _id: 1})
+      .skip((page - 1) * housesPerPage)
+      .limit(housesPerPage)
+      .toArray();
+
+    respondSuccess(res, {count, houses});
+  } catch (err) {
+    respondError(res, err);
+  }
 });
 
 housesRoutes.get("/short", async (req, res) => {
