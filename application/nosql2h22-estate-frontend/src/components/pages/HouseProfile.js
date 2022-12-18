@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react'
 import Navbar from "../../routes/Navbar/Navbar";
 import HouseProfileComponent from "./HouseProfile/HouseProfileComponent";
-import HouseAddressItem from "./Map/HouseAddressItem";
 import PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
 //import './../../styles/HouseProfile.css'

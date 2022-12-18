@@ -40,7 +40,7 @@ function HouseProfileComponent(props) {
 
     useEffect(()=>{
         if(Object.keys(object).length !== 0) {
-            console.log(JSON.stringify(object))
+            //console.log(JSON.stringify(object))
             ChangeAddress(object)
         }
     }, [object])
@@ -50,12 +50,12 @@ function HouseProfileComponent(props) {
         url.searchParams.append("apikey", "368ea89a-29e6-4b8a-881f-b59a7bab8369")
         url.searchParams.append("geocode", currentAddress)
         url.searchParams.append("format", "json")
-        fetch(url)
+        /*fetch(url)
             .then(res => res.json())
             .then( (res) => {
                 let coordArr = res.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")
                 setCoords({coordinates: [parseFloat(coordArr[1]), parseFloat(coordArr[0])]})
-            })
+            })*/
     }
 
     const getObjectById = () => {
@@ -64,27 +64,30 @@ function HouseProfileComponent(props) {
         fetch(url)
             .then(res => res.json())
             .then( ( res ) => {
+                console.log(res.message)
                 setObject(res.message)
+                setIsInitialize(true)
             });
     };
 
     function getMark(geometry){
-        console.log('geometry = ', geometry)
         return <Placemark geometry={geometry} options={{
             preset: 'islands#circleIcon',
             iconColor: 'green',
         }}
         />
     }
-
+/*
     useEffect(()=>{
         if(!isInitialize) {
             setIsInitialize(true)
         }
     })
-
+*/
     useEffect(()=>{
-        getObjectById()
+        if(!isInitialize){
+            getObjectById()
+        }
     }, [isInitialize])
 
 
@@ -93,8 +96,10 @@ function HouseProfileComponent(props) {
         for(let i = 0; i < col_names.length; i++) {
             if(col_names[i] === rusField) {
                 engField = col_names_eng[i]
+                break;
             }
         }
+        //console.log('engField = ', engField, ' rusField = ', rusField)
         return engField
     }
 
@@ -126,24 +131,109 @@ function HouseProfileComponent(props) {
         return count
     }
 
+    function DisplayAttribute(nameAttribute, valueAttribute, id) {
+        //console.log(nameAttribute, valueAttribute)    
+        if (nameAttribute === 'Номер дома' || nameAttribute === 'Коммунальные квартиры' || 
+            nameAttribute === 'Квартиры' || nameAttribute === 'Год проведения кап. ремонта' ||
+            nameAttribute === 'Виды работ'){
+            if (nameAttribute === 'Номер дома' || nameAttribute === 'Год проведения кап. ремонта'){
+                return (
+                    <div id={id} className={"fieldAttributeHouse"}>
+                        <p className={"paragraph-250"}>{nameAttribute}</p>
+                        <div className={"rectangle-280"}>{valueAttribute.toString()}</div>
+                    </div>
+                )
+            }else if (nameAttribute === 'Виды работ'){
+                return (
+                    <div id={id} className={"fieldAttributeHouse"}>
+                        <p className={"paragraph-250"}>{nameAttribute}</p>
+                        <div className={"rectangle-280"}>{valueAttribute.join(';')}</div>
+                    </div>
+                )
+            }else{
+                if(valueAttribute.length === 0){
+                    return (
+                        <div id={id} className={"fieldAttributeHouse"}>
+                            <p className={"paragraph-250"}>{nameAttribute}</p>
+                            <div className={"rectangle-280"}>{'-'}</div>
+                        </div>
+                    )
+                }else{
+                    let res = []
+                    for(let i = 0; i < valueAttribute.length; i++){
+                        res.push(valueAttribute[i].roomsCount + '-комнатные - ' + valueAttribute[i].count + 'шт.')
+                    }
+                    return (
+                        <div id={id} className={"fieldAttributeHouse"}>
+                            <p className={"paragraph-250"}>{nameAttribute}</p>
+                            <div className={"rectangle-280"}>{res.join(';')}</div>
+                        </div>
+                    )
+                }
+            }
+        }else{
+            if(!valueAttribute){
+                return (
+                    <div id={id} className={"fieldAttributeHouse"}>
+                        <p className={"paragraph-250"}>{nameAttribute}</p>
+                        <div className={"rectangle-280"}>{'-'}</div>
+                    </div>
+                )
+            }else{
+                if(nameAttribute === 'Автономная котельная' || nameAttribute === 'Печное отопление' || 
+                nameAttribute === 'Центральное горячее водоснабжение' || nameAttribute === 'Горячее водоснабжение от газ. колонок' ||
+                nameAttribute === 'Горячее водоснабжение от дров. колонок' || nameAttribute === 'Центральное электроснабжение' ||
+                nameAttribute === 'Центральное газоснабжение' || nameAttribute === 'Мусоропроводы' || nameAttribute === 'Аварийность'
+                ){
+                    return (
+                        <div id={id} className={"fieldAttributeHouse"}>
+                            <p className={"paragraph-250"}>{nameAttribute}</p>
+                            <div className={"rectangle-280"}>{'Есть'}</div>
+                        </div>
+                    )
+                }else{
+                    return (
+                        <div id={id} className={"fieldAttributeHouse"}>
+                            <p className={"paragraph-250"}>{nameAttribute}</p>
+                            <div className={"rectangle-280"}>{valueAttribute}</div>
+                        </div>
+                    )
+                }
+            }
+        }
 
-
-    function DisplayAttribute(nameAttribute, valueAttribute) {
-            return (
-                <div className={"fieldAttributeHouse"}>
-                    <p className={"paragraph-250"}>{nameAttribute}</p>
-                    <div className={"rectangle-280"}>{valueAttribute.toString()}</div>
-                </div>
-            )
+            /*
+            if(!valueAttribute || valueAttribute?.length === 0){
+                return (
+                    <div id={id} className={"fieldAttributeHouse"}>
+                        <p className={"paragraph-250"}>{nameAttribute}</p>
+                        <div className={"rectangle-280"}>{'-'}</div>
+                    </div>
+                )
+            }else{
+                if(typeof valueAttribute === 'Number'){
+                    
+                }else{
+                    return (
+                        <div id={id} className={"fieldAttributeHouse"}>
+                            <p className={"paragraph-250"}>{nameAttribute}</p>
+                            <div className={"rectangle-280"}>{valueAttribute.toString()}</div>
+                        </div>
+                    )
+                }
+            }
+            */
     }
 
     function DisplayAttributes() {
-
+        //console.log('object = ', object)
         if(Object.keys(object).length !== 0) {
             return col_names.map((value, index) => {
                 return (
                     <>
-                        {DisplayAttribute(value, String(object[FindEngField(value)]) )}
+                        {
+                            DisplayAttribute(value, object[FindEngField(value)], index)
+                        }
                     </>
                 )
             })

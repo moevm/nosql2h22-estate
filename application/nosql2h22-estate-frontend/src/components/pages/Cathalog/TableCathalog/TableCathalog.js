@@ -1,10 +1,8 @@
-import React, {createContext, useContext, useEffect, useReducer} from 'react'
-import {forEach} from "react-bootstrap/ElementChildren";
+import React, {useEffect} from 'react'
 import '../../../../styles/Cathalog/TableCathalog/TableCathalog.css'
-import {Component, useState} from "react";
+import {useState} from "react";
 import ButtonPageTableCatalog from "./ButtonPageTableCatalog";
 import PropTypes from "prop-types";
-import Cathalog from "../CathalogComponent";
 
 function TableCathalog(props) {
 

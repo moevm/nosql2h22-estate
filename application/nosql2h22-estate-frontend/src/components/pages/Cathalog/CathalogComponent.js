@@ -23,7 +23,7 @@ function CathalogComponent(props){
     let [test, setTest] = useState(true)
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
 
-    let [buttonsMaxPage, setButtonsMaxPage] = useState(100);
+    let [buttonsMaxPage, setButtonsMaxPage] = useState(295);
     let [currentPage, setCurrentPage] = useState("1");
 
     function InitializeRowObjects() {

@@ -25,6 +25,7 @@ function importDS(e) {
   console.log('import token = ', token)
 
   if(token === null){
+    console.log('Incorrect token!')
     return;
   }else{
 
@@ -42,6 +43,23 @@ function importDS(e) {
 
 function exportDS() {
   console.log('export')
+
+  fetch('http://127.0.0.1:1337/houses/download')
+    .then((response) => response.blob())
+    .then( (blob) => {
+      const url = window.URL.createObjectURL(
+        new Blob([blob]),
+      );
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute(
+        'download',
+        `db.csv`,
+      );
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    })
 }
 
 function SidebarItem(text, link, icon) {
