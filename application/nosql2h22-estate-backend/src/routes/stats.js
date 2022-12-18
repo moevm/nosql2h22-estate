@@ -1,7 +1,7 @@
 import express from "express";
 
 import { getDb } from "../db.js";
-import { respondSuccess, respondError } from "../utils.js";
+import { respondSuccess, respondError, createFilter } from "../utils.js";
 
 export const statsRoutes = express.Router();
 
@@ -16,15 +16,17 @@ statsRoutes.get("/districts", async (req, res) => {
 statsRoutes.get("/area", async (req, res) => {
   const dbConnection = getDb();
   const summaryArea = {};
+  const filter = createFilter(req);
 
   dbConnection
     .collection("houses")
     .find()
-    .project({ district: 1, areaHouse: 1, _id: 0 })
-    .forEach(({ district, areaHouse }) => {
-      summaryArea[district] = summaryArea[district]
-        ? summaryArea[district] + areaHouse
-        : areaHouse;
+    .forEach((house) => {
+      if (filter.satisfies(house)) {
+        summaryArea[house.district] = summaryArea[house.district]
+          ? summaryArea[house.district] + house.areaHouse
+          : house.areaHouse;
+      }
     })
     .then(() => {
       for (const key in summaryArea) {
@@ -38,16 +40,18 @@ statsRoutes.get("/area", async (req, res) => {
 statsRoutes.get("/flats", async (req, res) => {
   const dbConnection = getDb();
   const summaryFlats = {};
+  const filter = createFilter(req);
 
   dbConnection
     .collection("houses")
     .find()
-    .project({ district: 1, flat: 1, _id: 0 })
-    .forEach(({ district, flat }) => {
-      const flatCount = flat.reduce((acc, { count }) => acc + count, 0);
-      summaryFlats[district] = summaryFlats[district]
-        ? summaryFlats[district] + flatCount
-        : flatCount;
+    .forEach((house) => {
+      if (filter.satisfies(house)) {
+        const flatCount = house.flat.reduce((acc, { count }) => acc + count, 0);
+        summaryFlats[house.district] = summaryFlats[house.district]
+          ? summaryFlats[house.district] + flatCount
+          : flatCount;
+      }
     })
     .then(() => respondSuccess(res, summaryFlats))
     .catch((err) => respondError(res, err));
@@ -56,15 +60,17 @@ statsRoutes.get("/flats", async (req, res) => {
 statsRoutes.get("/residents", async (req, res) => {
   const dbConnection = getDb();
   const summaryLiving = {};
+  const filter = createFilter(req);
 
   dbConnection
     .collection("houses")
     .find()
-    .project({ district: 1, countLiving: 1, _id: 0 })
-    .forEach(({ district, countLiving }) => {
-      summaryLiving[district] = summaryLiving[district]
-        ? summaryLiving[district] + countLiving
-        : countLiving;
+    .forEach((house) => {
+      if (filter.satisfies(house)) {
+        summaryLiving[house.district] = summaryLiving[house.district]
+          ? summaryLiving[house.district] + house.countLiving
+          : house.countLiving;
+      }
     })
     .then(() => respondSuccess(res, summaryLiving))
     .catch((err) => respondError(res, err));

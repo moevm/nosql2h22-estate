@@ -153,3 +153,19 @@ export const parseDb = (csvString) =>
       return house;
     }
   });
+
+export const createFilter = (req) => {
+  const filter = scheme.reduce((filter, { name }) => {
+    if (req.query[name]) {
+      filter.push(parseFinding(name, req.query[name]));
+    }
+
+    return filter;
+  }, []);
+
+  filter.satisfies = function (house) {
+    return this.every((fn) => fn(house));
+  };
+
+  return filter;
+};

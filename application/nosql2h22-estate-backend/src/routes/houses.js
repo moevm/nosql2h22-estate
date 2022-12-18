@@ -7,11 +7,11 @@ import {
   respondSuccess,
   respondError,
   shortProjection,
-  parseFinding,
   normaliseHouse,
   validateToken,
   dropIfExist,
   parseDb,
+  createFilter,
 } from "../utils.js";
 import { getDb } from "../db.js";
 import { scheme } from "../houseScheme.js";
@@ -50,13 +50,7 @@ housesRoutes.get("/filter", async (req, res) => {
   let count = 0;
   const houses = [];
   const skip = (page - 1) * housesPerPage;
-  const filter = scheme.reduce((filter, { name }) => {
-    if (req.query[name]) {
-      filter.push(parseFinding(name, req.query[name]));
-    }
-
-    return filter;
-  }, []);
+  const filter = createFilter(req);
 
   logger.info("page: ", page);
   logger.info("filter: ", filter);
@@ -66,7 +60,7 @@ housesRoutes.get("/filter", async (req, res) => {
     .find()
     .sort(sortBy ? { [sortBy]: sortOrder } : { _id: 1 })
     .forEach((house) => {
-      if (filter.every((fn) => fn(house))) {
+      if (filter.satisfies(house)) {
         count++;
         if (houses.length < housesPerPage && count > skip) {
           houses.push(house);
