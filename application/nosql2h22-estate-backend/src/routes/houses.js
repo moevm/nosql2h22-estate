@@ -66,7 +66,7 @@ housesRoutes.get("/filter", async (req, res) => {
     const houses = await dbConnection
       .collection("houses")
       .find({ $where: filter.join("&&") })
-      .sort(sortBy ? {[sortBy]: sortOrder} : { _id: 1 })
+      .sort(sortBy ? { [sortBy]: sortOrder } : { _id: 1 })
       .skip((page - 1) * housesPerPage)
       .limit(housesPerPage)
       .toArray();

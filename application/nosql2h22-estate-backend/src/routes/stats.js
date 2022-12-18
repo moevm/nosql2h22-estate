@@ -1,8 +1,6 @@
 import express from "express";
-import _ from "lodash";
 
 import { getDb } from "../db.js";
-import { logger } from "../logger.js";
 import { respondSuccess, respondError } from "../utils.js";
 
 export const statsRoutes = express.Router();
@@ -16,52 +14,58 @@ statsRoutes.get("/districts", async (req, res) => {
 });
 
 statsRoutes.get("/area", async (req, res) => {
-  const district = req.query.district;
   const dbConnection = getDb();
-
-  logger.info(`district=${district}`);
+  const summaryArea = {};
 
   dbConnection
     .collection("houses")
-    .find({ district })
-    .project({ areaHouse: 1, _id: 0 })
-    .toArray()
-    .then((houses) => houses.reduce((sum, house) => sum + house.areaHouse, 0))
-    .then((area) => respondSuccess(res, area))
+    .find()
+    .project({ district: 1, areaHouse: 1, _id: 0 })
+    .forEach(({ district, areaHouse }) => {
+      summaryArea[district] = summaryArea[district]
+        ? summaryArea[district] + areaHouse
+        : areaHouse;
+    })
+    .then(() => {
+      for (const key in summaryArea) {
+        summaryArea[key] = Math.round(summaryArea[key] * 100) / 100;
+      }
+    })
+    .then(() => respondSuccess(res, summaryArea))
     .catch((err) => respondError(res, err));
 });
 
 statsRoutes.get("/flats", async (req, res) => {
-  const district = req.query.district;
   const dbConnection = getDb();
-
-  logger.info(`district=${district}`);
+  const summaryFlats = {};
 
   dbConnection
     .collection("houses")
-    .find({ district })
-    .project({ flat: 1, _id: 0 })
-    .toArray()
-    .then((houses) => houses.map((house) => house.flat))
-    .then((arr) => _.flatten(arr))
-    .then((flats) => flats.map((flat) => flat.count))
-    .then((flatCounts) => flatCounts.reduce((sum, v) => sum + v, 0))
-    .then((flatCount) => respondSuccess(res, flatCount))
+    .find()
+    .project({ district: 1, flat: 1, _id: 0 })
+    .forEach(({ district, flat }) => {
+      const flatCount = flat.reduce((acc, { count }) => acc + count, 0);
+      summaryFlats[district] = summaryFlats[district]
+        ? summaryFlats[district] + flatCount
+        : flatCount;
+    })
+    .then(() => respondSuccess(res, summaryFlats))
     .catch((err) => respondError(res, err));
 });
 
 statsRoutes.get("/residents", async (req, res) => {
-  const district = req.query.district;
   const dbConnection = getDb();
-
-  logger.info(`district=${district}`);
+  const summaryLiving = {};
 
   dbConnection
     .collection("houses")
-    .find({ district })
-    .project({ countLiving: 1, _id: 0 })
-    .toArray()
-    .then((houses) => houses.reduce((sum, house) => sum + house.countLiving, 0))
-    .then((area) => respondSuccess(res, area))
+    .find()
+    .project({ district: 1, countLiving: 1, _id: 0 })
+    .forEach(({ district, countLiving }) => {
+      summaryLiving[district] = summaryLiving[district]
+        ? summaryLiving[district] + countLiving
+        : countLiving;
+    })
+    .then(() => respondSuccess(res, summaryLiving))
     .catch((err) => respondError(res, err));
 });
