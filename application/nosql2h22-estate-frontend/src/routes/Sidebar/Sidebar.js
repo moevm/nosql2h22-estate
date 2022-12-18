@@ -54,7 +54,7 @@ function exportDS() {
       link.href = url;
       link.setAttribute(
         'download',
-        `db.csv`,
+        `db.json`,
       );
       document.body.appendChild(link);
       link.click();

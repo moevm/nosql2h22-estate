@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { BrowserRouter as Router } from "react-router-dom";
+
 import Cathalog from './components/pages/Cathalog.js'
 import Layout from './routes/Layout.js'
 import Map from './components/pages/Map.js'
@@ -56,19 +58,21 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Layout handleAdminExit={logOut} isAuthorized={isLoggedIn}/>}>
-          <Route path="/" element={<Cathalog isAuthorized={isLoggedIn}/>}/>
-          <Route path="/map" element={<Map isAuthorized={isLoggedIn}/>}/>
-          <Route path="/stat" element={<Statistics isAuthorized={isLoggedIn}/>}/>
-          { adminProfileRoute() }
-          <Route path="/testHouseProfile" element={<HouseProfile/>}/>
-          <Route path='/map/:id' element={<HouseProfile/>}/>
-        </Route> 
-        <Route path="/auth" element={<Authorization setIsAuthorized={(v) => setIsLoggedIn(v)} isAuthorized={isLoggedIn}/>}/>
-      </Routes>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Layout handleAdminExit={logOut} isAuthorized={isLoggedIn}/>}>
+            <Route path="/" element={<Cathalog isAuthorized={isLoggedIn}/>}/>
+            <Route path="/map" element={<Map isAuthorized={isLoggedIn}/>}/>
+            <Route path="/stat" element={<Statistics isAuthorized={isLoggedIn}/>}/>
+            { adminProfileRoute() }
+            <Route path="/testHouseProfile" element={<HouseProfile/>}/>
+            <Route path='/map/:id' element={<HouseProfile/>}/>
+          </Route> 
+          <Route path="/auth" element={<Authorization setIsAuthorized={(v) => setIsLoggedIn(v)} isAuthorized={isLoggedIn}/>}/>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

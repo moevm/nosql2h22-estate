@@ -36,8 +36,7 @@ housesRoutes.get("/download", async (req, res) => {
     .sort({ _id: 1 })
     .toArray()
     .then((houses) => Buffer.from(JSON.stringify(houses)))
-    .then((db) => fsPromises.writeFile("/tmp/db.json", db))
-    .then(() => res.download("/tmp/db.json"))
+    .then((buffer) => res.send(buffer))
     .catch((err) => respondError(res, err));
 });
 
