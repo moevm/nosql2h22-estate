@@ -32,12 +32,12 @@ export function parseFinding(key, value) {
         .join("|");
 
   if (!key.includes(".")) {
-    return `/${pattern}/.test(this.${key})`;
+    return (obj) => RegExp(pattern).test(obj[key]);
   }
 
   const [field, objField] = key.split(".");
 
-  return `this.${field}.some(obj => /${pattern}/.test(obj.${objField}))`;
+  return (obj) => obj[field].some((val) => RegExp(pattern).test(val[objField]));
 }
 
 const normaliseBoolean = (house, scheme) => {

@@ -47,6 +47,9 @@ housesRoutes.get("/filter", async (req, res) => {
   const page = _.isInteger(+req.query.page) ? Math.max(+req.query.page, 1) : 1;
   const sortBy = req.query.sort;
   const sortOrder = req.query.order;
+  let count = 0;
+  const houses = [];
+  const skip = (page - 1) * housesPerPage;
   const filter = scheme.reduce((filter, { name }) => {
     if (req.query[name]) {
       filter.push(parseFinding(name, req.query[name]));
@@ -58,23 +61,20 @@ housesRoutes.get("/filter", async (req, res) => {
   logger.info("page: ", page);
   logger.info("filter: ", filter);
 
-  try {
-    const count = await dbConnection
-      .collection("houses")
-      .find({ $where: filter.join("&&") })
-      .count();
-    const houses = await dbConnection
-      .collection("houses")
-      .find({ $where: filter.join("&&") })
-      .sort(sortBy ? { [sortBy]: sortOrder } : { _id: 1 })
-      .skip((page - 1) * housesPerPage)
-      .limit(housesPerPage)
-      .toArray();
-
-    respondSuccess(res, { count, houses });
-  } catch (err) {
-    respondError(res, err);
-  }
+  dbConnection
+    .collection("houses")
+    .find()
+    .sort(sortBy ? { [sortBy]: sortOrder } : { _id: 1 })
+    .forEach((house) => {
+      if (filter.every((fn) => fn(house))) {
+        count++;
+        if (houses.length < housesPerPage && count > skip) {
+          houses.push(house);
+        }
+      }
+    })
+    .then(() => respondSuccess(res, { count, houses }))
+    .catch((err) => respondError(res, err));
 });
 
 housesRoutes.get("/short", async (req, res) => {
