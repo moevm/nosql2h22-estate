@@ -45,6 +45,8 @@ housesRoutes.get("/filter", async (req, res) => {
   const dbConnection = getDb();
   const housesPerPage = +process.env.HOUSES_PER_PAGE || 5;
   const page = _.isInteger(+req.query.page) ? Math.max(+req.query.page, 1) : 1;
+  const sortBy = req.query.sort;
+  const sortOrder = req.query.order;
   const filter = scheme.reduce((filter, { name }) => {
     if (req.query[name]) {
       filter.push(parseFinding(name, req.query[name]));
@@ -64,7 +66,7 @@ housesRoutes.get("/filter", async (req, res) => {
     const houses = await dbConnection
       .collection("houses")
       .find({ $where: filter.join("&&") })
-      .sort({ _id: 1 })
+      .sort(sortBy ? {[sortBy]: sortOrder} : { _id: 1 })
       .skip((page - 1) * housesPerPage)
       .limit(housesPerPage)
       .toArray();
