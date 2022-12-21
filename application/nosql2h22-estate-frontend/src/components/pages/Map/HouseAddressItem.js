@@ -21,7 +21,9 @@ const HouseAddressItem = (props) => {
     }
     address += ", "
     if(props.houseNumber) {
-      address += props.houseNumber
+      if(props.houseNumber.length >= 1){
+        address += props.houseNumber[0]
+      }  
     }
     if(props.houseFractionNumber) {
       address += "/"
@@ -63,8 +65,8 @@ HouseAddressItem.propTypes = {
   id: PropTypes.string,
   handleItemClick: PropTypes.func,
   street: PropTypes.string,
-  houseNumber: PropTypes.string,
-  houseFractionNumber: PropTypes.string,
+  houseNumber: PropTypes.array,
+  houseFractionNumber: PropTypes.number,
   character: PropTypes.string,
   district: PropTypes.string
 }

@@ -41,14 +41,20 @@ function ModalFilter(props) {
 
     function CustomModalOptionName(value) {
         return (
-            <th>{value}</th>
+            <table>
+                <thead>
+                    <tr>
+                        <th>{value}</th>
+                    </tr>
+                </thead>
+            </table>    
         )
     }
 
     function CustomModalOptions() {
         return props.columns.map((value, index) => {
             return (
-                <div>
+                <div key={index}>
                     {CustomModalOptionName(value)}
                     {CustomModalInput(value)}
                     <div className={"ModalOffset"}/>

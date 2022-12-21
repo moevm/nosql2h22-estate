@@ -1,8 +1,9 @@
 .sidebar{
   width: 305px;
-	height: 150vh;
+	height: 100vh;
 	padding: 8px 8px 8px 8px;
 	background: #202123;
+  overflow:hidden;
 }
 
 .content{

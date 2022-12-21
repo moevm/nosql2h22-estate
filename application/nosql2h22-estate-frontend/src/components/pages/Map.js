@@ -3,7 +3,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 //Components
-import Navbar from './../../routes/Navbar/Navbar.js'
 import MapComponent from './Map/MapComponent.js'
 
 //Styles

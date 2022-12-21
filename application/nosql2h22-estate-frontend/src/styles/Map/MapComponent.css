@@ -9,9 +9,7 @@
   height: 875px;
   background-color: #ffffff;
   position: absolute;
-  box-shadow: 5px 1px 5px rgba(0, 0, 0, 0.22);;
-  overflow-y:scroll;
-
+  box-shadow: 5px 1px 5px rgba(0, 0, 0, 0.22);
 }
 
 .map-houses-map{

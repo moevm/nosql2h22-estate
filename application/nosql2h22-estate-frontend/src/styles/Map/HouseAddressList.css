@@ -4,3 +4,8 @@
   height: 42px;
 }
 
+.house-address-items-container{
+  width: 388px;
+  height: 875px;
+  overflow-y:scroll;
+}

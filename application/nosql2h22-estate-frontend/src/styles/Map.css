@@ -4,9 +4,5 @@
 
 .map-component-container {
   position: absolute;
-}
-
-#navbarMap {
-
-
+  overflow:hidden;
 }
