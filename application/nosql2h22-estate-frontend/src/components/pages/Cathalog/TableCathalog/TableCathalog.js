@@ -68,7 +68,7 @@ function TableCathalog(props) {
             setButtonsPage(["1", "2", "3", "...", "..."])
             setButtonsMaxPage(100)
             //setCurrentPage("1")
-            setNumberElementsOnPage(20)
+            setNumberElementsOnPage(props.numberElementsOnPage)
             setTest(false)
         }
     }

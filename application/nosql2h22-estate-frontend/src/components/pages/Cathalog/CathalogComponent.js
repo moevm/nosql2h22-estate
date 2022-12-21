@@ -24,39 +24,59 @@ function CathalogComponent(props){
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
 
     let [buttonsMaxPage, setButtonsMaxPage] = useState(295);
+    let [numberElementsOnPage, setNumberElementsOnPage] = useState(20);
     let [currentPage, setCurrentPage] = useState("1");
+
+    function RoundButtonsMaxPage(res) {
+        let ans = res / numberElementsOnPage
+        if (Number.isInteger(ans)) {
+            setButtonsMaxPage(Math.floor(ans))
+        } else {
+            setButtonsMaxPage(Math.floor(ans) + 1)
+        }
+    }
+
+    function InitializeButtonsMaxPage() {
+
+        if(Object.keys(filter).length === 0) {
+            let url = new URL('http://localhost:1337/houses/count')
+            fetch(url)
+                .then(res => res.json())
+                .then((res) => {
+                    console.log('res = ', res.message)
+                    RoundButtonsMaxPage(res.message)
+                });
+        }
+    }
 
     function InitializeRowObjects() {
 
-        if(Object.keys(filter).length === 0) {
-            console.log('no has filter')
-            let url = new URL('http://localhost:1337/houses')
-            url.searchParams.append("page", currentPage)
-            fetch(url)
-                .then(res => res.json())
-                .then( (res) => {
-                    console.log('res = ', res.message)
-                    setRowObjects(res.message)
-                });
-        } else {
             console.log('has filter')
             let url = new URL('http://localhost:1337/houses/filter')
             for (let k in filter) {
                 url.searchParams.append(k, filter[k]);
             }
             url.searchParams.append("page", currentPage)
+            url.searchParams.append("sort", sort)
+            if(reverseSort) {
+                url.searchParams.append("sortOrder", "1")
+            } else  {
+                url.searchParams.append("sortOrder", "-1")
+            }
             fetch(url)
                 .then(res => res.json())
                 .then( (res) => {
                     console.log('res = ', res.message)
-                    setRowObjects(res.message)
+                    //alert(JSON.stringify(res.message.houses))
+                    setRowObjects(res.message.houses)
+                    RoundButtonsMaxPage(res.message.count)
                 });
-        }
         //setRowObjects(SortRowObjects(SearchRowObjects(test_rowdata)))
     }
 
     useEffect(() => {
         if(!isInitialize) {
+            InitializeButtonsMaxPage()
             SetProps();
         }
     }, [isInitialize])
@@ -136,8 +156,10 @@ function CathalogComponent(props){
     }
 
     function HandlerSearch(value) {
+        let tmp = filter
+        tmp.street = value
+        setFilter(tmp)
         Handler()
-        setSearch(value)
     }
 
     function HandlerFilter(value) {
@@ -153,7 +175,13 @@ function CathalogComponent(props){
     function DisplayTableCathalog() {
         if(isInitialize && (rowObjects.length !== 0)) {
             return (
-                <TableCathalog columns={columns} rowObjects={rowObjects} currentPage={currentPage} Handler={HandlerPage} buttonsMaxPage={buttonsMaxPage}/>
+                <TableCathalog columns={columns}
+                               rowObjects={rowObjects}
+                               currentPage={currentPage}
+                               Handler={HandlerPage}
+                               buttonsMaxPage={buttonsMaxPage}
+                               numberElementsOnPage={numberElementsOnPage}
+                />
             )
         }
     }

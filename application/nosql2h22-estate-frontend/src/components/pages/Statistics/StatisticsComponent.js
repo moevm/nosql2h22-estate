@@ -23,59 +23,67 @@ function StatisticsComponent(props){
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
 
 
+
+    function CastToArray(obj) {
+        let mass = []
+        for (let key in obj) {
+            mass.push({district: key, value: obj[key]})
+        }
+        return mass
+    }
+
+    function InitializeObjectsArea() {
+        let url = new URL('http://localhost:1337/stats/area/')
+        for (let k in filter) {
+            url.searchParams.append(k, filter[k]);
+        }
+        fetch(url)
+            .then(res => res.json())
+            .then( (res) => {
+                setObjectsArea(CastToArray(res.message))
+            })
+    }
+
+    function InitializeObjectsFlats() {
+        let url = new URL('http://localhost:1337/stats/flats/')
+        for (let k in filter) {
+            url.searchParams.append(k, filter[k]);
+        }
+        fetch(url)
+            .then(res => res.json())
+            .then( (res) => {
+                setObjectsFlats(CastToArray(res.message))
+            })
+    }
+
+    function InitializeObjectsResidents() {
+        let url = new URL('http://localhost:1337/stats/residents/')
+        for (let k in filter) {
+            url.searchParams.append(k, filter[k]);
+        }
+        fetch(url)
+            .then(res => res.json())
+            .then( (res) => {
+                setObjectsResidents(CastToArray(res.message))
+            })
+    }
+
     function InitializeObjects() {
-        /*
-        if(Object.keys(filter).length === 0) {
-            console.log('no has filter')
-            fetch('http://localhost:1337/stats/area/')
-                .then(res => res.json())
-                .then( (res) => {
-                    setObjectsArea(res.message)
-                });
-            fetch('http://localhost:1337/stats/flats/')
-                .then(res => res.json())
-                .then( (res) => {
-                    setObjectsFlats(res.message)
-                });
-            fetch('http://localhost:1337/stats/residents/')
-                .then(res => res.json())
-                .then( (res) => {
-                    setObjectsResidents(res.message)
-                });
-        } else {
-            console.log('has filter')
-            fetch('http://localhost:1337/stats/area/filter')
-                .then(res => res.json())
-                .then( (res) => {
-                    setObjectsArea(res.message)
-                });
-            fetch('http://localhost:1337/stats/flats/filter')
-                .then(res => res.json())
-                .then( (res) => {
-                    setObjectsFlats(res.message)
-                });
-            fetch('http://localhost:1337/stats/residents/filter')
-                .then(res => res.json())
-                .then( (res) => {
-                    setObjectsResidents(res.message)
-                });
-        }*/
+        InitializeObjectsArea()
+        InitializeObjectsFlats()
+        InitializeObjectsResidents()
     }
 
     useEffect(() => {
         if(!isInitialize) {
+            setIsInitialize(true)
             SetProps();
         }
     }, [isInitialize])
 
-    useEffect(() => {
-        if(!isInitialize) {
-            setIsInitialize(true)
-        }
-    }, [objects])
 
     function SetProps() {
-        TestSetProps();
+        //TestSetProps();
         if(props.columns !== undefined) {
             setColumns(props.columns)
         }
@@ -281,8 +289,7 @@ function StatisticsComponent(props){
             <div className={"StatisticsBlocks"}>
                 <StatisticsBlock title={"Площадь всех зданий для каждого района, кв. м"} valueName={"Количество кв.м"} objects={objectsArea}/>
                 <StatisticsBlock title={"Количество квартир"} valueName={"Количество квартир"} objects={objectsFlats}/>
-                <StatisticsBlock title={"Площадь незанятых жилых помещений, кв. м"} valueName={"Количество кв.м"} objects={objectsNonResidentsArea}/>
-                <StatisticsBlock title={"Количество проживающих"} valueName={"Количество человек"} objects={objectsNonResidentsArea}/>
+                <StatisticsBlock title={"Количество проживающих"} valueName={"Количество человек"} objects={objectsResidents}/>
             </div>
         )
     }
@@ -290,7 +297,7 @@ function StatisticsComponent(props){
     return (
         <div>
             <div className={"ButtonFilterOffset"}>
-                <ButtonFilter columns={col_names} columnsEng={col_names_eng} Handler={Handler}/>
+                <ButtonFilter columns={col_names} columnsEng={col_names_eng} Handler={HandlerFilter}/>
             </div>
             {DisplayStatisticsBlocks()}
         </div>

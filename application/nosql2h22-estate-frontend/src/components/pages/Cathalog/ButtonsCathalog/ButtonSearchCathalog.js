@@ -10,7 +10,12 @@ function ButtonSearchCathalog(props) {
 
     function Input(e) {
         setTextDynamicSearch(e.target.value)
-        props.Handler(e.target.value)
+    }
+
+    function Refresh() {
+        if(textDynamicSearch) {
+            props.Handler(textDynamicSearch)
+        }
     }
 
     function DisplayDynamicSearch() {
@@ -19,6 +24,14 @@ function ButtonSearchCathalog(props) {
                        value={textDynamicSearch}
                        onChange={(e) => {
                            Input(e)
+                       }}
+                       onClick={()=>{
+                           Refresh()
+                       }}
+                       onKeyDown={(e)=>{
+                           if(e.keyCode === 13) {
+                               Refresh()
+                           }
                        }}
                 >
                 </input>
