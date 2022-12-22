@@ -14,23 +14,56 @@ import './../../styles/Navbar.css'
 
 const Navbar = (props) => {
 
-  const adminLink = () => {
-    if(props.isAuthorized === 'true'){
+  const AdminLink = () => {
       return (
-        <Link to="/adminProfile" style={{ textDecoration: 'none' }}>
-          <div className="admin-link">
+          <Link to="/adminProfile" style={{ textDecoration: 'none' }}>
+              <div className="admin-link">
             <span className="icon">
               <FontAwesomeIcon icon={faUserCircle} />{' '}
             </span>
-            <span className="item-text">
+                  <span className="item-text">
               Администратор
             </span>
-          </div>
-        </Link>
+              </div>
+          </Link>
       )
-    }else{
-      return <div></div>
-    }
+  }
+
+  const LoginLink = () => {
+      return (
+          <Link to="/auth" style={{ textDecoration: 'none' }}>
+              <div className="admin-link">
+            <span className="item-text">
+              Войти
+            </span>
+              </div>
+          </Link>
+      )
+  }
+
+  const MakeLink = () => {
+      if(props.isAuthorized === 'true'){
+          return (
+              <>{AdminLink()}</>
+          )
+
+      }else{
+          return (
+              <>{LoginLink()}</>
+          )
+      }
+  }
+
+  const HiddenLink = () => {
+      if(props.isAuthorized !== 'hidden') {
+          return (
+              <>{MakeLink()}</>
+          )
+      } else {
+          return (
+              <></>
+          )
+      }
   }
 
   return (
@@ -45,7 +78,7 @@ const Navbar = (props) => {
           </span>
         </p>
       </div>
-      {adminLink()}
+      {HiddenLink()}
     </div>
   );
 

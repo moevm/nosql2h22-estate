@@ -57,11 +57,11 @@ function CathalogComponent(props){
                 url.searchParams.append(k, filter[k]);
             }
             url.searchParams.append("page", currentPage)
-            url.searchParams.append("sort", sort)
+            url.searchParams.append("sort", sort.toString())
             if(reverseSort) {
-                url.searchParams.append("sortOrder", "1")
+                url.searchParams.append("order", "1")
             } else  {
-                url.searchParams.append("sortOrder", "-1")
+                url.searchParams.append("order", "-1")
             }
             fetch(url)
                 .then(res => res.json())

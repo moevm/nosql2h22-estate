@@ -210,16 +210,10 @@ function TableCathalog(props) {
                                 {value.district}
                             </td>
                             <td>
-                                {SumRoomsCount(value.commune)}
+                                {SumRoomsCount(value.commune)}, {SumCount(value.commune)}
                             </td>
                             <td>
-                                {SumCount(value.commune)}
-                            </td>
-                            <td>
-                                {SumRoomsCount(value.flat)}
-                            </td>
-                            <td>
-                                {SumCount(value.flat)}
+                                {SumRoomsCount(value.flat)}, {SumCount(value.flat)}
                             </td>
                             <td>
                                 {value.series}

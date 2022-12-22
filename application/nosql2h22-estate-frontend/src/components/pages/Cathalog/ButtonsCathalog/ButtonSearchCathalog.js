@@ -42,7 +42,7 @@ function ButtonSearchCathalog(props) {
         if(textDynamicSearch === "") {
             return (
                 <>
-                    <p className='textStaticSearch'>Search</p>
+                    <p className='textStaticSearch'>Поиск</p>
                 </>
             )
         } else {

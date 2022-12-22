@@ -113,6 +113,38 @@ const Sidebar = (props) => {
     }
   }
 
+  const SidebarImportExport = () => {
+      if (props.isAuthorized === 'true') {
+          return (
+              <>
+
+                  <div className="div-line"></div>
+
+                  <div className="button-item">
+                      <button className="button">
+                          <label htmlFor='import-ds-input' className="import-label">
+                              <FontAwesomeIcon icon={faUpload} />{' '}
+                              Импорт НД
+                          </label>
+                          <input type="file" id="import-ds-input" className="import-input" onChange={(e)=>importDS(e, props.token)}/>
+                      </button>
+                  </div>
+
+                  <div className="button-item">
+                      <button className="button" onClick={() => exportDS()}>
+                          <FontAwesomeIcon icon={faDownload} />{' '}
+                          Экспорт НД
+                      </button>
+                  </div>
+              </>
+          )
+      } else {
+          return (
+              <></>
+          )
+      }
+  }
+
   return (
     <div>
       <div className="header-item">
@@ -136,24 +168,10 @@ const Sidebar = (props) => {
         { SidebarItem('Статистика', '/stat', faBarChart) }
       </Link>
 
-      <div className="div-line"></div>
 
-      <div className="button-item">
-        <button className="button">
-          <label htmlFor='import-ds-input' className="import-label">
-            <FontAwesomeIcon icon={faUpload} />{' '}
-            Импорт НД
-          </label>
-          <input type="file" id="import-ds-input" className="import-input" onChange={(e)=>importDS(e, props.token)}/>
-        </button>
-      </div>
 
-      <div className="button-item">
-        <button className="button" onClick={() => exportDS()}>
-          <FontAwesomeIcon icon={faDownload} />{' '}
-          Экспорт НД
-        </button>   
-      </div>
+      {SidebarImportExport()}
+
 
       {SidebarExitButton()}
 

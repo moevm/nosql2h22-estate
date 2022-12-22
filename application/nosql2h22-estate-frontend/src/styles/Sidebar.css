@@ -124,6 +124,7 @@
 }
 
 .import-label{
+  cursor: pointer;
   color:#8c8c8d;
   font-family: "Source Sans 3";
 	font-weight: 500;
@@ -134,6 +135,11 @@
 
 .import-input{
   display: none;
+  cursor: pointer;
+}
+
+.import-label:hover {
+    color: #ffffff;
 }
 
 .exit-button-item{

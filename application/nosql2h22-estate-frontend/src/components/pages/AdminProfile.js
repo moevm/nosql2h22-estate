@@ -8,7 +8,7 @@ const AdminProfile = () => {
     return (
         <div>
             <div className="navbar">
-                <Navbar headerText={"Профиль администратора"} descText={"Ниже представлен ваш профиль"}/>
+                <Navbar headerText={"Профиль администратора"} descText={"Ниже представлен ваш профиль"} isAuthorized={"hidden"}/>
             </div>
             <div className="AdminProfile-component">
                 <AdminProfileComponent/>
