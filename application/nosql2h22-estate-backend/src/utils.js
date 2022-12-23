@@ -24,6 +24,12 @@ export const shortProjection = [
 ].reduce((res, k) => _.set(res, k, 1), {});
 
 export function parseFinding(key, value) {
+  if (key.startsWith("area") && /\d+(.\d+)?-\d+(.\d+)?/.test(value)) {
+    const [left, right] = value.split("-").map((v) => +v);
+
+    return (obj) => +obj[key] >= left && +obj[key] <= right;
+  }
+
   const pattern = _.isArray(value)
     ? value.map((str) => `(${str.trim()})`).join("|")
     : value
@@ -32,12 +38,13 @@ export function parseFinding(key, value) {
         .join("|");
 
   if (!key.includes(".")) {
-    return (obj) => RegExp(pattern).test(obj[key]);
+    return (obj) => RegExp(pattern, "i").test(obj[key]);
   }
 
   const [field, objField] = key.split(".");
 
-  return (obj) => obj[field].some((val) => RegExp(pattern).test(val[objField]));
+  return (obj) =>
+    obj[field].some((val) => RegExp(pattern, "i").test(val[objField]));
 }
 
 const normaliseBoolean = (house, scheme) => {

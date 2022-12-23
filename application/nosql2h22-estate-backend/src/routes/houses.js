@@ -1,7 +1,6 @@
 import express from "express";
 import _ from "lodash";
 import { ObjectId } from "mongodb";
-import fsPromises from "fs/promises";
 
 import {
   respondSuccess,
@@ -50,6 +49,11 @@ housesRoutes.get("/filter", async (req, res) => {
   const houses = [];
   const skip = (page - 1) * housesPerPage;
   const filter = createFilter(req);
+  const sort =
+    sortBy &&
+    !scheme.find((prop) => prop.name === sortBy).type.startsWith("array")
+      ? { [sortBy]: sortOrder }
+      : { _id: 1 };
 
   logger.info("page: ", page);
   logger.info("filter: ", filter);
@@ -57,7 +61,7 @@ housesRoutes.get("/filter", async (req, res) => {
   dbConnection
     .collection("houses")
     .find()
-    .sort(sortBy ? { [sortBy]: sortOrder } : { _id: 1 })
+    .sort(sort)
     .forEach((house) => {
       if (filter.satisfies(house)) {
         count++;
