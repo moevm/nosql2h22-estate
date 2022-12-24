@@ -38,11 +38,11 @@ services:
       ports:
         - 42069:8081
         
-#  frontend:
-#    container_name: client
-#    ports:
-#      - 3000:3000
-#    build: ./nosql2h22-estate-frontend
+  frontend:
+    container_name: client
+    ports:
+      - 3000:3000
+    build: ./nosql2h22-estate-frontend
 
 volumes:
   log:

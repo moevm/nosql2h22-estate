@@ -28,6 +28,7 @@ const HouseAddressList = (props) => {
             .then(res => res.json())
             .then( ( res ) => {
                 let arr = [...addresses.data, ...res.message]
+                setRecordsAmount(totalRecords)
                 setAdresses({
                     data: arr,
                     page: addresses.page + 1
