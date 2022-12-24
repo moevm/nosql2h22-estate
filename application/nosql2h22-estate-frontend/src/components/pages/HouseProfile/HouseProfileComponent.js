@@ -50,17 +50,16 @@ function HouseProfileComponent(props) {
         url.searchParams.append("apikey", "368ea89a-29e6-4b8a-881f-b59a7bab8369")
         url.searchParams.append("geocode", currentAddress)
         url.searchParams.append("format", "json")
-        /*fetch(url)
+        fetch(url)
             .then(res => res.json())
             .then( (res) => {
                 let coordArr = res.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")
                 setCoords({coordinates: [parseFloat(coordArr[1]), parseFloat(coordArr[0])]})
-            })*/
+            })
     }
 
     const getObjectById = () => {
         let url = new URL('http://127.0.0.1:1337/houses/'+props.id)
-        //url.searchParams.append("id", props.id)
         fetch(url)
             .then(res => res.json())
             .then( ( res ) => {
@@ -77,13 +76,7 @@ function HouseProfileComponent(props) {
         }}
         />
     }
-/*
-    useEffect(()=>{
-        if(!isInitialize) {
-            setIsInitialize(true)
-        }
-    })
-*/
+
     useEffect(()=>{
         if(!isInitialize){
             getObjectById()
@@ -99,7 +92,6 @@ function HouseProfileComponent(props) {
                 break;
             }
         }
-        //console.log('engField = ', engField, ' rusField = ', rusField)
         return engField
     }
 

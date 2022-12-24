@@ -17,6 +17,7 @@ const HouseAddressList = (props) => {
   const [totalRecords, setTotalRecords] = useState(0)
   const [fetching, setFetching] = useState(false)
   const [filterFirstTime, setFilterFirstTime] = useState(true)
+  const [recordsAmount, setRecordsAmount] = useState(0)
 
   const getNewAddresses = () => {
 
@@ -47,19 +48,20 @@ const HouseAddressList = (props) => {
         fetch(url)
             .then(res => res.json())
             .then( ( res ) => {
+                console.log(res)
+
                 let arr = []
                 if(filterFirstTime){
                     arr = res.message.houses
                 }else{
                     arr = [...addresses.data, ...res.message.houses]
                 }
-                console.log(res)
-                console.log(arr)
                 setFilterFirstTime(false)
                 setAdresses({
                     data: arr,
                     page: addresses.page + 1
                 })
+                setRecordsAmount(res.message.count)
             })
             .finally(()=>{setFetching(false)})
     }
@@ -72,6 +74,7 @@ const HouseAddressList = (props) => {
         .then( ( res ) => {
             setTotalRecords(res.message)
             setHasTotalCount(true)
+            setRecordsAmount(res.message)
         });
   }
 
@@ -135,8 +138,13 @@ const HouseAddressList = (props) => {
 
   return (
     <div>
-      <div className="map-filter-panel">
-        <ButtonFilter columns={col_names} columnsEng={col_names_eng} Handler={Handler}/>
+      <div className="map-panel">
+        <div className="map-filter-panel">
+            <ButtonFilter columns={col_names} columnsEng={col_names_eng} Handler={Handler}/>
+        </div>
+        <div>
+            <span>{'Число найденных записей: ' + recordsAmount + ' шт.'}</span>
+        </div>
       </div>
         {DisplayAddresses(addresses)}
     </div>

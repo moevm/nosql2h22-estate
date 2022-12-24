@@ -34,18 +34,18 @@ function MapComponent(props){
 	  url.searchParams.append("apikey", "368ea89a-29e6-4b8a-881f-b59a7bab8369")
     url.searchParams.append("geocode", currentAddress)
     url.searchParams.append("format", "json")
-    /*fetch(url)
+    fetch(url)
         .then(res => res.json())
         .then( (res) => {
             let coordArr = res.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")
             setCoords({coordinates: [parseFloat(coordArr[1]), parseFloat(coordArr[0])]})
-        })*/
+        })
   }
 
   function getMark(geometry){
     return <Placemark geometry={geometry} options={{
-        preset: 'islands#circleIcon',
-        iconColor: 'green',
+        preset: 'islands#blueCircleDotIconWithCaption',
+        iconColor: 'red',
       }}
     />
   }

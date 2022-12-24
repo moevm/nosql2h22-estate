@@ -9,3 +9,7 @@
   height: 875px;
   overflow-y:scroll;
 }
+
+.map-panel{
+  display:flex;
+}

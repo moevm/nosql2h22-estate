@@ -186,7 +186,6 @@ function CathalogComponent(props){
         }
     }
 
-    //alert("begined: " + JSON.stringify(rowObjects))
     if(isInitialize)
         return (
             <div className="cathalog">
